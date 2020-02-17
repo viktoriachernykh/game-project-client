@@ -3,8 +3,26 @@ import { createBoard } from "../components/tetris/game-helper-files/createBoard"
 
 export const useBoard = (player, resetPlayer) => {
   const [board, setBoard] = useState(createBoard());
+  const [rowsCleared, setRowsCleared] = useState(0);
 
   useEffect(() => {
+    setRowsCleared(0);
+
+    const sweepRows = newBoard => {
+      return newBoard.reduce((accumulator, row) => {
+        if (row.findIndex(cell => cell[0] === 0) === -1) {
+          setRowsCleared(
+            previousAmountOfRowsCleared => previousAmountOfRowsCleared + 1
+          );
+          accumulator.unshift(new Array(newBoard[0].length).fill([0, "clear"]));
+          return accumulator;
+        } else {
+          accumulator.push(row);
+          return accumulator;
+        }
+      }, []);
+    };
+
     const updateBoard = previousBoard => {
       const newBoard = previousBoard.map(row =>
         row.map(cell => {
@@ -26,6 +44,7 @@ export const useBoard = (player, resetPlayer) => {
       //Check if collided THIS CAUSES TO PLAY WITH A NEW TETROMINO
       if (player.collided) {
         resetPlayer();
+        return sweepRows(newBoard);
       }
 
       return newBoard;
