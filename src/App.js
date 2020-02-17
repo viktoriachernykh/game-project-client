@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import store from "./store";
+import store from "./store/index";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
 import LobbyContainer from "./components/Lobby/LobbyContainer";
+import Tetris from "./components/tetris/Tetris";
 
 class App extends Component {
   render() {
@@ -10,8 +11,7 @@ class App extends Component {
       <Provider store={store}>
         <div>
           <Route exact path="/" component={LobbyContainer} />
-
-          {/* <Route path="/event/:id" component={EventDetailsContainer} /> */}
+          <Route path="/games/:id" component={Tetris} />
         </div>
       </Provider>
     );
