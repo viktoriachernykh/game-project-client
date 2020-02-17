@@ -1,3 +1,5 @@
+//Color should be removed here eventually and be injected later by the store, in which we save the player color.
+
 export const TetrominosTemplate = {
   0: { shape: [[0]], color: "0, 0, 0" },
   I: {
