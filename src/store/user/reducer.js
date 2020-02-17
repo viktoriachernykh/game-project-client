@@ -1,4 +1,4 @@
-import { NEW_USER, SET_SESSION } from "../actions";
+import { NEW_USER, SET_SESSION } from "./actions";
 
 const initialState = {
   jwt: "",
