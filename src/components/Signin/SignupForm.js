@@ -4,7 +4,6 @@ export default function CreateForm(props) {
   return (
     <div>
       <form onSubmit={event => props.onSubmit(event)}>
-        {/* <form onSubmit={event => props.onSubmit(event)}> */}
         username:
         <input
           type="text"
