@@ -33,6 +33,21 @@ export const usePlayer = () => {
     const deepClonedPlayer = JSON.parse(JSON.stringify(player));
     deepClonedPlayer.tetromino = rotate(deepClonedPlayer.tetromino, direction);
 
+    const positionX = deepClonedPlayer.position.x; // save the x position
+    let offset = 1;
+
+    while (checkCollision(deepClonedPlayer, board, { x: 0, y: 0 })) {
+      deepClonedPlayer.position.x += offset;
+
+      offset = -(offset + (offset > 0 ? 1 : -1));
+
+      if (offset > deepClonedPlayer.tetromino[0].length) {
+        rotate(deepClonedPlayer.tetromino, -direction);
+        deepClonedPlayer.position.x = positionX; //reset the x position to it's original
+        return;
+      }
+    }
+
     setPlayer(deepClonedPlayer);
   }
 
