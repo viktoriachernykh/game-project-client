@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { createBoard } from "./game-helper-files/createBoard";
+import { checkCollision } from "./game-helper-files/collision";
 
 //components
 import Board from "./board/Board";
@@ -19,25 +20,40 @@ export default function Tetris() {
   const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPosition, resetPlayer] = usePlayer();
-  const [board, setBoard] = useBoard(player);
+  const [board, setBoard] = useBoard(player, resetPlayer);
+
+  //useBoard needs: resetPlayer, but infinite loop ...?
 
   console.log("Render of Tetris function");
 
   function movePlayer(direction) {
-    updatePlayerPosition({ x: direction, y: 0 });
+    const intendedMove = { x: direction, y: 0 };
+    if (!checkCollision(player, board, intendedMove)) {
+      updatePlayerPosition(intendedMove);
+    }
   }
 
   function startGame() {
     // reset everything
-    console.log("Hi from startgame!");
     console.log("player test", player);
 
     setBoard(createBoard());
     resetPlayer();
+    setGameOver(false);
   }
 
   function drop() {
-    updatePlayerPosition({ x: 0, y: 1, collided: false });
+    if (!checkCollision(player, board, { x: 0, y: 1 })) {
+      updatePlayerPosition({ x: 0, y: 1, collided: false });
+    } else {
+      // create something for game over
+      if (player.position.y < 1) {
+        console.log("Game over");
+        setGameOver(true);
+        setDroptime(null);
+      }
+      updatePlayerPosition({ x: 0, y: 0, collided: true });
+    }
   }
 
   function dropPlayer() {

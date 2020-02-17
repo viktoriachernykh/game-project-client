@@ -1,13 +1,17 @@
 import { useState, useCallback } from "react";
 
 import { BOARD_WIDTH } from "../components/tetris/game-helper-files/createBoard";
+import { checkCollision } from "../components/tetris/game-helper-files/collision";
 
-import { randomTetromino } from "../components/tetris/game-helper-files/tetrominos";
+import {
+  randomTetromino,
+  TetrominosTemplate
+} from "../components/tetris/game-helper-files/tetrominos";
 
-export function usePlayer() {
+export const usePlayer = () => {
   const [player, setPlayer] = useState({
     position: { x: 0, y: 0 },
-    tetromino: randomTetromino().shape,
+    tetromino: TetrominosTemplate[0].shape,
     collided: false
   });
 
@@ -33,4 +37,4 @@ export function usePlayer() {
   });
 
   return [player, updatePlayerPosition, resetPlayer];
-}
+};

@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-
 import { createBoard } from "../components/tetris/game-helper-files/createBoard";
 
-export function useBoard(player, resetPlayer) {
+export const useBoard = (player, resetPlayer) => {
+  console.log("In use board function and reset player test", resetPlayer);
+
   const [board, setBoard] = useState(createBoard());
 
   useEffect(() => {
@@ -24,10 +25,18 @@ export function useBoard(player, resetPlayer) {
         });
       });
 
+      //Check if collided THIS CAUSES TO PLAY WITH A NEW TETROMINO
+      if (player.collided) {
+        console.log("In collided of use board");
+        console.log("reset player test", resetPlayer);
+
+        resetPlayer();
+      }
+
       return newBoard;
     };
 
     setBoard(previousBoardState => updateBoard(previousBoardState));
   }, [player]);
   return [board, setBoard];
-}
+};
