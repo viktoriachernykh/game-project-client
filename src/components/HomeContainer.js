@@ -4,12 +4,12 @@ import Home from "./Home";
 
 class ProductsContainer extends React.Component {
   render() {
-    return <Home user={this.props.user} />;
+    return <Home user={this.props.user} token={this.props.token} />;
   }
 }
 
 function mapStateToProps(state) {
-  return { user: state.user };
+  return { user: state.session.user, token: state.session.jwt };
 }
 
 export default connect(mapStateToProps)(ProductsContainer);
