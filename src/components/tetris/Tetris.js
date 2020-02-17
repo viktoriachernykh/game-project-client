@@ -29,6 +29,9 @@ export default function Tetris() {
 
   function startGame() {
     // reset everything
+    console.log("Hi from startgame!");
+    console.log("player test", player);
+
     setBoard(createBoard());
     resetPlayer();
   }
@@ -71,7 +74,7 @@ export default function Tetris() {
               <Display text="Level" />
             </div>
           )}
-          <StartButton onClick={startGame} />
+          <StartButton callback={startGame} />
         </aside>
       </StyledTetris>
     </StyledTetrisWrapper>

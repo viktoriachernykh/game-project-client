@@ -26,7 +26,7 @@ export function usePlayer() {
 
   const resetPlayer = useCallback(() => {
     setPlayer({
-      position: { x: BOARD_WIDTH / 2 - 2, y: 0 },
+      position: { x: BOARD_WIDTH / 2 - 1, y: 0 },
       tetromino: randomTetromino().shape,
       collided: false
     });
