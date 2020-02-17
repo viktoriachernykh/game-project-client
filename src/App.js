@@ -10,8 +10,6 @@ class App extends Component {
       <Provider store={store}>
         <div>
           <Route exact path="/" component={HomeContainer} />
-
-          {/* <Route path="/event/:id" component={EventDetailsContainer} /> */}
         </div>
       </Provider>
     );
