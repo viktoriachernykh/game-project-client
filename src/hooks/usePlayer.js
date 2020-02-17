@@ -15,6 +15,27 @@ export const usePlayer = () => {
     collided: false
   });
 
+  function rotate(tetromino, direction) {
+    //Have rows become columns (transpose)
+    const rotatedTetromino = tetromino.map((NOT_USED, index) =>
+      tetromino.map(column => column[index])
+    );
+
+    //reverse each row to get rotated tetromino
+    if (direction > 0) {
+      return rotatedTetromino.map(row => row.reverse());
+    } else {
+      return rotatedTetromino.reverse();
+    }
+  }
+
+  function playerRotate(board, direction) {
+    const deepClonedPlayer = JSON.parse(JSON.stringify(player));
+    deepClonedPlayer.tetromino = rotate(deepClonedPlayer.tetromino, direction);
+
+    setPlayer(deepClonedPlayer);
+  }
+
   function updatePlayerPosition({ x, y, collided }) {
     setPlayer(previousState => {
       return {
@@ -36,5 +57,5 @@ export const usePlayer = () => {
     });
   });
 
-  return [player, updatePlayerPosition, resetPlayer];
+  return [player, updatePlayerPosition, resetPlayer, playerRotate];
 };

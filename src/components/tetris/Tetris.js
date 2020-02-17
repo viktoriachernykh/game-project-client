@@ -19,7 +19,7 @@ export default function Tetris() {
   const [dropTime, setDroptime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
-  const [player, updatePlayerPosition, resetPlayer] = usePlayer();
+  const [player, updatePlayerPosition, resetPlayer, playerRotate] = usePlayer();
   const [board, setBoard] = useBoard(player, resetPlayer);
 
   //useBoard needs: resetPlayer, but infinite loop ...?
@@ -69,6 +69,8 @@ export default function Tetris() {
         movePlayer(1);
       } else if (keyCode === 40) {
         dropPlayer();
+      } else if (keyCode === 38) {
+        playerRotate(board, 1);
       }
     }
   }
