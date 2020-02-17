@@ -2,7 +2,7 @@ import request from "superagent";
 const baseUrl = "http://localhost:4000";
 
 export const NEW_USER = "NEW_USER";
-export const JWT = "JWT";
+export const SET_SESSION = "user/SET_JWT_AND_USER_DATA";
 
 function signupSuccess(payload) {
   return {
@@ -26,10 +26,13 @@ export const signup = (username, email, password) => dispatch => {
     .catch(console.error);
 };
 
-function loginSuccess(payload) {
+function loginSuccess(jwt, userData) {
   return {
-    type: JWT,
-    payload
+    type: SET_SESSION,
+    payload: {
+      jwt,
+      user: userData
+    }
   };
 }
 export const login = (username, password) => dispatch => {
@@ -44,7 +47,9 @@ export const login = (username, password) => dispatch => {
     .post(`${baseUrl}/login`)
     .send(data)
     .then(response => {
-      dispatch(loginSuccess(response.body));
+      const jwt = response.body.jwt;
+      const user = response.body.userData;
+      dispatch(loginSuccess(jwt, user));
     })
     .catch(console.error);
 };

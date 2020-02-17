@@ -8,13 +8,13 @@ export default class Lobby extends Component {
       <div>
         <h1>Home Page</h1>
 
-        {!this.props.user && (
+        {!this.props.token && (
           <div>
             <LoginFormContainer />
             <SignupFormContainer />
           </div>
         )}
-        {this.props.user && (
+        {this.props.token && (
           <div>
             <h1>Welcome, {this.props.user.username}!</h1>
             <p>hey hey hey</p>
