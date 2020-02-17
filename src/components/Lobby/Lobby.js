@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import LoginFormContainer from "./LoginFormContainer";
-import SignupFormContainer from "./SignupFormContainer";
+import LoginFormContainer from "../Login/LoginFormContainer";
+import SignupFormContainer from "../Signin/SignupFormContainer";
 
-export default class Products extends Component {
+export default class Lobby extends Component {
   render() {
     return (
       <div>
