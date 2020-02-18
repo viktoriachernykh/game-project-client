@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import LoginFormContainer from "../Login/LoginFormContainer";
 import SignupFormContainer from "../Signin/SignupFormContainer";
-import Form from "../Room/Form";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { chooseRoom } from "../../store/room/actions";
+import NewRoomForm from "./NewRoomForm";
 
 class Lobby extends Component {
   pick = id => {
     const currentRoom = this.props.rooms.find(room => room.id === id);
-    console.log("what am io", currentRoom);
     this.props.chooseRoom(currentRoom);
   };
 
@@ -20,8 +19,7 @@ class Lobby extends Component {
           key={room.id}
           onClick={() => {
             return this.pick(room.id);
-          }}
-        >
+          }}>
           {room.name}{" "}
         </button>
       </Link>
@@ -41,7 +39,7 @@ class Lobby extends Component {
           <div>
             <h1>Welcome, {this.props.user.username}!</h1>
             WATCH GAME JOIN GAME CREATE NEW GAME
-            <Form resource="room" field="name" />
+            <NewRoomForm resource="room" field="name" />
             {roomButtons}
           </div>
         )}
