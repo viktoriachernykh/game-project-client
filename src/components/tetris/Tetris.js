@@ -12,6 +12,7 @@ import StartButton from "./startButton/StartButton";
 import { usePlayer } from "../../hooks/usePlayer";
 import { useBoard } from "../../hooks/useBoard";
 import { useInterval } from "../../hooks/useInterval";
+import { useGameStatus } from "../../hooks/useGameStatus";
 
 //styled components
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
@@ -21,11 +22,10 @@ export default function Tetris() {
   const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPosition, resetPlayer, playerRotate] = usePlayer();
-  const [board, setBoard] = useBoard(player, resetPlayer);
-
-  //useBoard needs: resetPlayer, but infinite loop ...?
-
-  console.log("Render of Tetris function");
+  const [board, setBoard, rowsCleared] = useBoard(player, resetPlayer);
+  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
+    rowsCleared
+  );
 
   function movePlayer(direction) {
     const intendedMove = { x: direction, y: 0 };
@@ -39,9 +39,20 @@ export default function Tetris() {
     setDropTime(1000);
     resetPlayer();
     setGameOver(false);
+    setScore(0);
+    setRows(0);
+    setLevel(0);
   }
 
   function drop() {
+    //Increase level when player has cleared 10 rows.
+    if (rows > (level + 1) * 10) {
+      setLevel(previousLevelState => previousLevelState + 1);
+
+      //Also increase speed
+      setDropTime(900 / (level + 1) + 200);
+    }
+
     if (!checkCollision(player, board, { x: 0, y: 1 })) {
       updatePlayerPosition({ x: 0, y: 1, collided: false });
     } else {
@@ -59,7 +70,7 @@ export default function Tetris() {
     const { keyCode } = event;
     if (!gameOver) {
       if (keyCode === 40) {
-        setDropTime(1000);
+        setDropTime(900 / (level + 1) + 200);
       }
     }
   }
@@ -101,9 +112,9 @@ export default function Tetris() {
             <Display gameOver={gameOver} text="Game Over" />
           ) : (
             <div>
-              <Display text="Score" />
-              <Display text="Rows" />
-              <Display text="Level" />
+              <Display text={`Score: ${score}`} />
+              <Display text={`Rows: ${rows}`} />
+              <Display text={`Level: ${level}`} />
             </div>
           )}
           <StartButton callback={startGame} />
