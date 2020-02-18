@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import { connect } from "react-redux";
-import { fetchActions } from "./store/chat/actions";
+import { fetchActions } from "./store/room/actions";
 import LobbyContainer from "./components/Lobby/LobbyContainer";
 import RoomContainer from "./components/Room/RoomContainer";
 import Tetris from "./components/tetris/Tetris";

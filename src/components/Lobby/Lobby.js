@@ -19,6 +19,7 @@ export default class Lobby extends Component {
           <div>
             <h1>Welcome, {this.props.user.username}!</h1>
             WATCH GAME JOIN GAME CREATE NEW GAME
+            {/* <Link to={`/room/${room.id}`}></Link> */}
             <RoomContainer />
           </div>
         )}
