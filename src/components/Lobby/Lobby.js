@@ -14,9 +14,8 @@ class Lobby extends Component {
 
   render() {
     const roomButtons = this.props.rooms.map(room => (
-      <Link to={`/room/${room.id}`}>
+      <Link key={room.id} to={`/room/${room.id}`}>
         <button
-          key={room.id}
           onClick={() => {
             return this.pick(room.id);
           }}>

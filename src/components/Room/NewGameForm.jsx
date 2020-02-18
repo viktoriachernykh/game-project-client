@@ -15,8 +15,7 @@ class NewGameForm extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    console.log("I was submitted");
-    console.log("state test", this.state);
+    this.props.onSubmit(this.state.maxPlayers);
   };
 
   render() {

@@ -1,10 +1,41 @@
 import React from "react";
 import { connect } from "react-redux";
+import axios from "axios";
 import { Link } from "react-router-dom";
 import NewGameForm from "./NewGameForm";
 import NewMessageForm from "./NewMessageForm";
+import { createBoard } from "../tetris/game-helper-files/createBoard";
 
 class RoomContainer extends React.Component {
+  onSubmit = async maxPlayers => {
+    const url = `http://localhost:4000/games`;
+
+    try {
+      console.log("I was submitted");
+      console.log("maxPlayers test", maxPlayers);
+      console.log("Room id test", this.props.room.id);
+
+      const emptyBoard = createBoard();
+
+      console.log("new board for db", emptyBoard);
+      const newGame = await axios.post(url, {
+        maxPlayers,
+        roomId: this.props.room.id,
+        boardState: emptyBoard
+      });
+
+      console.log("New game test", newGame);
+
+      //create a post request to create a game
+
+      //include an empty board, max players and room id
+
+      // response will the game, set to room container state
+    } catch (error) {
+      throw error;
+    }
+  };
+
   render() {
     console.log("this.props from RoomContainer render ", this.props);
 
@@ -27,7 +58,7 @@ class RoomContainer extends React.Component {
           {paragraphs}
         </aside>
         <section>
-          <NewGameForm />
+          <NewGameForm onSubmit={this.onSubmit} />
         </section>
       </div>
     );
