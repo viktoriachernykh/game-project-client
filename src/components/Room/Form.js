@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import { connect } from "react-redux";
 
 class Form extends React.Component {
   state = {
@@ -65,4 +66,4 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+export default connect()(Form);
