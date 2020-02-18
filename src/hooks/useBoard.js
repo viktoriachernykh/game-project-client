@@ -8,17 +8,17 @@ export const useBoard = (player, resetPlayer) => {
   useEffect(() => {
     setRowsCleared(0);
 
-    const sweepRows = newBoard => {
-      return newBoard.reduce((accumulator, row) => {
+    const sweepRows = board => {
+      return board.reduce((newBoard, row) => {
         if (row.findIndex(cell => cell[0] === 0) === -1) {
           setRowsCleared(
             previousAmountOfRowsCleared => previousAmountOfRowsCleared + 1
           );
-          accumulator.unshift(new Array(newBoard[0].length).fill([0, "clear"]));
-          return accumulator;
+          newBoard.unshift(new Array(board[0].length).fill([0, "clear"]));
+          return newBoard;
         } else {
-          accumulator.push(row);
-          return accumulator;
+          newBoard.push(row);
+          return newBoard;
         }
       }, []);
     };
@@ -52,5 +52,5 @@ export const useBoard = (player, resetPlayer) => {
 
     setBoard(previousBoardState => updateBoard(previousBoardState));
   }, [player]);
-  return [board, setBoard];
+  return [board, setBoard, rowsCleared];
 };
