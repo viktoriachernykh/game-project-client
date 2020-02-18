@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import LoginFormContainer from "../Login/LoginFormContainer";
 import SignupFormContainer from "../Signin/SignupFormContainer";
+import RoomContainer from "../Room/RoomContainer";
 
 export default class Lobby extends Component {
   render() {
     return (
       <div>
-        <h1>Home Page</h1>
+        <h1>Lobby </h1>
 
         {!this.props.token && (
           <div>
@@ -17,7 +18,8 @@ export default class Lobby extends Component {
         {this.props.token && (
           <div>
             <h1>Welcome, {this.props.user.username}!</h1>
-            <p>hey hey hey</p>
+            WATCH GAME JOIN GAME CREATE NEW GAME
+            <RoomContainer />
           </div>
         )}
       </div>

@@ -1,9 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { login } from "../../store/user/actions";
 import LoginForm from "./LoginForm";
 
-class LoginFormContainer extends React.Component {
+class LoginFormContainer extends Component {
   state = { username: "", password: "" };
 
   onSubmit = event => {
@@ -14,6 +14,7 @@ class LoginFormContainer extends React.Component {
       this.state.password
     );
   };
+
   onChange = event => {
     this.setState({
       [event.target.name]: event.target.value
