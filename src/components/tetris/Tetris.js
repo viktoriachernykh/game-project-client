@@ -94,6 +94,22 @@ export default function Tetris() {
       }
     }
   }
+  // function move(event, playerHasControl) {
+  //   if (playerHasControl) {
+  //     const { keyCode } = event;
+  //     if (!gameOver) {
+  //       if (keyCode === 37) {
+  //         movePlayer(-1);
+  //       } else if (keyCode === 39) {
+  //         movePlayer(1);
+  //       } else if (keyCode === 40) {
+  //         dropPlayer();
+  //       } else if (keyCode === 38) {
+  //         playerRotate(board, 1);
+  //       }
+  //     }
+  //   }
+  // }
 
   useInterval(() => {
     drop();
