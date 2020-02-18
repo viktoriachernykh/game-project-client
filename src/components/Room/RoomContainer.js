@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-
+import Form from "./Form";
 import { Link } from "react-router-dom";
 
 class RoomContainer extends React.Component {
@@ -17,6 +17,7 @@ class RoomContainer extends React.Component {
     return (
       <div>
         <Link to="/">Back to lobby</Link>
+        <Form resource="message" field="text" roomId={this.props.room.id} />
         {paragraphs}
       </div>
     );

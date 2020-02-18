@@ -1,4 +1,4 @@
-import { ALL_ROOMS, ONE_ROOM, ADD_ROOM_TO_STORE } from "./actions";
+import { ALL_ROOMS, ONE_ROOM, ADD_ROOM_TO_STORE, NEW_MESSAGE } from "./actions";
 
 const initialState = {
   rooms: [],
@@ -22,6 +22,12 @@ export default function(state = initialState, action = {}) {
       };
     }
     case ADD_ROOM_TO_STORE: {
+      return {
+        ...state,
+        room: action.payload
+      };
+    }
+    case NEW_MESSAGE: {
       return {
         ...state,
         room: action.payload

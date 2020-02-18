@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import LoginFormContainer from "../Login/LoginFormContainer";
 import SignupFormContainer from "../Signin/SignupFormContainer";
-import RoomContainer from "../Room/RoomContainer";
 import Form from "../Room/Form";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -16,14 +15,16 @@ class Lobby extends Component {
 
   render() {
     const roomButtons = this.props.rooms.map(room => (
-      <button
-        key={room.id}
-        onClick={() => {
-          return this.pick(room.id);
-        }}
-      >
-        <Link to={`/room/${room.id}`}>{room.name}</Link>
-      </button>
+      <Link to={`/room/${room.id}`}>
+        <button
+          key={room.id}
+          onClick={() => {
+            return this.pick(room.id);
+          }}
+        >
+          {room.name}{" "}
+        </button>
+      </Link>
     ));
 
     return (
@@ -41,7 +42,6 @@ class Lobby extends Component {
             <h1>Welcome, {this.props.user.username}!</h1>
             WATCH GAME JOIN GAME CREATE NEW GAME
             <Form resource="room" field="name" />
-            <Form resource="message" field="text" roomId={this.props.room.id} />
             {roomButtons}
           </div>
         )}
