@@ -11,12 +11,13 @@ import StartButton from "./startButton/StartButton";
 //hooks
 import { usePlayer } from "../../hooks/usePlayer";
 import { useBoard } from "../../hooks/useBoard";
+import { useInterval } from "../../hooks/useInterval";
 
 //styled components
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris() {
-  const [dropTime, setDroptime] = useState(null);
+  const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPosition, resetPlayer, playerRotate] = usePlayer();
@@ -34,10 +35,8 @@ export default function Tetris() {
   }
 
   function startGame() {
-    // reset everything
-    console.log("player test", player);
-
     setBoard(createBoard());
+    setDropTime(1000);
     resetPlayer();
     setGameOver(false);
   }
@@ -50,7 +49,7 @@ export default function Tetris() {
       if (player.position.y < 1) {
         console.log("Game over");
         setGameOver(true);
-        setDroptime(null);
+        setDropTime(null);
       }
       updatePlayerPosition({ x: 0, y: 0, collided: true });
     }
@@ -74,6 +73,10 @@ export default function Tetris() {
       }
     }
   }
+
+  useInterval(() => {
+    drop();
+  }, dropTime);
 
   return (
     <StyledTetrisWrapper
