@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import NewGameForm from "./NewGameForm";
 import NewMessageForm from "./NewMessageForm";
 
 class RoomContainer extends React.Component {
@@ -17,12 +18,17 @@ class RoomContainer extends React.Component {
     return (
       <div>
         <Link to="/">Back to lobby</Link>
-        <NewMessageForm
-          resource="message"
-          field="text"
-          roomId={this.props.room.id}
-        />
-        {paragraphs}
+        <aside className="chatWindow">
+          <NewMessageForm
+            resource="message"
+            field="text"
+            roomId={this.props.room.id}
+          />
+          {paragraphs}
+        </aside>
+        <section>
+          <NewGameForm />
+        </section>
       </div>
     );
   }

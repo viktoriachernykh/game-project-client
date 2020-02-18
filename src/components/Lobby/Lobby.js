@@ -39,7 +39,7 @@ class Lobby extends Component {
           <div>
             <h1>Welcome, {this.props.user.username}!</h1>
             WATCH GAME JOIN GAME CREATE NEW GAME
-            <NewRoomForm resource="room" field="name" />
+            <NewRoomForm resource="room" />
             {roomButtons}
           </div>
         )}

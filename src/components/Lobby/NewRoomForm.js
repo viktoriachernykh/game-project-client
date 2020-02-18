@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 
 class Form extends React.Component {
   state = {
-    value: ""
+    name: "",
+    maxPlayers: 0
   };
 
   onSubmit = async event => {
@@ -14,12 +15,9 @@ class Form extends React.Component {
 
     try {
       const data = {
-        [this.props.field]: this.state.value
+        name: this.state.name
+        // maxPlayers: this.state.maxPlayers
       };
-
-      if (this.props.resource === "message") {
-        data.roomId = this.props.roomId;
-      }
       await axios.post(url, data);
 
       this.clear();
@@ -29,9 +27,10 @@ class Form extends React.Component {
   };
 
   onChange = event => {
-    const { value } = event.target;
-
-    this.setState({ value });
+    this.setState({
+      ...this.state,
+      [event.target.name]: event.target.value
+    });
   };
 
   clear = () => {
@@ -39,16 +38,22 @@ class Form extends React.Component {
   };
 
   render() {
-    const placeholder = `new ${this.props.resource}`;
-
     return (
       <form onSubmit={this.onSubmit}>
         <input
           type="text"
-          value={this.state.value}
-          placeholder={placeholder}
+          value={this.state.name}
+          name="name"
+          placeholder="Enter the name of the room"
           onChange={this.onChange}
         />
+        {/* <input
+          type="number"
+          value={this.state.maxPlayers}
+          name="maxPlayers"
+          placeholder="Max. players"
+          onChange={this.onChange}
+        /> */}
 
         <button>submit</button>
 
