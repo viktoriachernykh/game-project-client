@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { createBoard } from "../components/tetris/game-helper-files/createBoard";
+import axios from "axios";
 
-export const useBoard = (player, resetPlayer) => {
+export const useBoard = (player, resetPlayer, gameId) => {
   const [board, setBoard] = useState(createBoard());
   const [rowsCleared, setRowsCleared] = useState(0);
 
@@ -44,10 +45,30 @@ export const useBoard = (player, resetPlayer) => {
       //Check if collided THIS CAUSES TO PLAY WITH A NEW TETROMINO
       if (player.collided) {
         resetPlayer();
-        return sweepRows(newBoard);
-      }
+        const sweepedRowNewBoard = sweepRows(newBoard);
+        //SEND SWEEPEDROWNEWBOARD TO DB
 
+        sendBoardToDB(sweepedRowNewBoard, gameId);
+        return sweepedRowNewBoard;
+      }
+      //SEND NEW BOARD TO DB
+      sendBoardToDB(newBoard, gameId);
       return newBoard;
+    };
+
+    const sendBoardToDB = async board => {
+      console.log("board test", board);
+
+      try {
+        console.log("before await update");
+        const updatedGame = await axios.patch("http://localhost:4000/games", {
+          boardState: board,
+          id: gameId
+        });
+        console.log("after await update");
+      } catch (error) {
+        throw error;
+      }
     };
 
     setBoard(previousBoardState => updateBoard(previousBoardState));

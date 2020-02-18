@@ -17,12 +17,13 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 //styled components
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
-export default function Tetris() {
+export default function Tetris(props) {
+  const { gameId } = props;
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPosition, resetPlayer, playerRotate] = usePlayer();
-  const [board, setBoard, rowsCleared] = useBoard(player, resetPlayer);
+  const [board, setBoard, rowsCleared] = useBoard(player, resetPlayer, gameId);
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
     rowsCleared
   );
