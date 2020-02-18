@@ -1,31 +1,11 @@
 import React from "react";
-import Form from "./Form";
 import { connect } from "react-redux";
-import { chooseRoom } from "../../store/room/actions";
+
+import { Link } from "react-router-dom";
 
 class RoomContainer extends React.Component {
-  pick = id => {
-    const currentRoom = this.props.rooms.find(room => room.id === id);
-    console.log("what am io", currentRoom);
-    this.props.chooseRoom(currentRoom);
-    // this.setState({
-    //   room: currentRoom.name,
-    //   roomId: currentRoom.id
-    // });
-  };
-
   render() {
     console.log("this.props from RoomContainer render ", this.props);
-    const roomButtons = this.props.rooms.map(room => (
-      <button
-        key={room.id}
-        onClick={() => {
-          return this.pick(room.id);
-        }}
-      >
-        {room.name}
-      </button>
-    ));
 
     const room = this.props.room;
 
@@ -36,12 +16,7 @@ class RoomContainer extends React.Component {
 
     return (
       <div>
-        <Form resource="room" field="name" />
-
-        <Form resource="message" field="text" roomId={this.props.room.id} />
-
-        {roomButtons}
-
+        <Link to="/">Back to lobby</Link>
         {paragraphs}
       </div>
     );
@@ -57,4 +32,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { chooseRoom })(RoomContainer);
+export default connect(mapStateToProps)(RoomContainer);
