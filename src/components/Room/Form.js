@@ -20,14 +20,9 @@ class Form extends React.Component {
       if (this.props.resource === "message") {
         data.roomId = this.props.roomId;
       }
-      // We do not use the response in any way
-      const response = await axios.post(url, data);
+      await axios.post(url, data);
 
       this.clear();
-      // this.setState({ value: '' })
-
-      // This is just for testing
-      console.log("response from Form", response);
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +35,6 @@ class Form extends React.Component {
   };
 
   clear = () => {
-    console.log("clear test");
     this.setState({ value: "" });
   };
 
