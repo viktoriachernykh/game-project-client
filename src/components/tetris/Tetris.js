@@ -55,7 +55,17 @@ export default function Tetris() {
     }
   }
 
+  function keyUp(event) {
+    const { keyCode } = event;
+    if (!gameOver) {
+      if (keyCode === 40) {
+        setDropTime(1000);
+      }
+    }
+  }
+
   function dropPlayer() {
+    setDropTime(null);
     drop();
   }
 
@@ -82,7 +92,8 @@ export default function Tetris() {
     <StyledTetrisWrapper
       role="button"
       tabIndex="0"
-      onKeyDown={event => move(event)}>
+      onKeyDown={event => move(event)}
+      onKeyUp={keyUp}>
       <StyledTetris>
         <Board board={board} />
         <aside>
