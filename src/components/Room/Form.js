@@ -17,7 +17,7 @@ class Form extends React.Component {
       };
 
       if (this.props.resource === "message") {
-        data.channelId = this.props.channelId;
+        data.roomId = this.props.roomId;
       }
       // We do not use the response in any way
       const response = await axios.post(url, data);
