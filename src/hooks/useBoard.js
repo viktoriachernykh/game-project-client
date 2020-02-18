@@ -10,11 +10,11 @@ export const useBoard = (player, resetPlayer) => {
 
     const sweepRows = board => {
       return board.reduce((newBoard, row) => {
-        if (row.findIndex(cell => cell[0] === 0) === -1) {
+        if (row.findIndex(cell => cell[0] === "0") === -1) {
           setRowsCleared(
             previousAmountOfRowsCleared => previousAmountOfRowsCleared + 1
           );
-          newBoard.unshift(new Array(board[0].length).fill([0, "clear"]));
+          newBoard.unshift(new Array(board[0].length).fill(["0", "clear"]));
           return newBoard;
         } else {
           newBoard.push(row);
@@ -26,7 +26,7 @@ export const useBoard = (player, resetPlayer) => {
     const updateBoard = previousBoard => {
       const newBoard = previousBoard.map(row =>
         row.map(cell => {
-          return cell[1] === "clear" ? [0, "clear"] : cell;
+          return cell[1] === "clear" ? ["0", "clear"] : cell;
         })
       );
 
