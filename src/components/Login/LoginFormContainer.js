@@ -22,6 +22,12 @@ class LoginFormContainer extends Component {
   };
 
   render() {
+    if (this.props.token) {
+      setTimeout(() => {
+        this.props.history.push("/");
+      }, 500);
+      return <p>Login successful!</p>;
+    }
     return (
       <LoginForm
         onSubmit={this.onSubmit}
@@ -33,4 +39,10 @@ class LoginFormContainer extends Component {
   }
 }
 
-export default connect(null, { login })(LoginFormContainer);
+function mapStateToProps(state) {
+  return {
+    token: state.session.jwt
+  };
+}
+
+export default connect(mapStateToProps, { login })(LoginFormContainer);

@@ -11,19 +11,21 @@ function signupSuccess(payload) {
   };
 }
 
-export const signup = (username, email, password) => dispatch => {
-  const data = {
-    username: username,
-    email: email,
-    password: password
+export const signup = (username, email, password) => {
+  return dispatch => {
+    const data = {
+      username: username,
+      email: email,
+      password: password
+    };
+    request
+      .post(`${baseUrl}/users`)
+      .send(data)
+      .then(response => {
+        dispatch(signupSuccess(response.body));
+      })
+      .catch(console.error);
   };
-  request
-    .post(`${baseUrl}/users`)
-    .send(data)
-    .then(response => {
-      dispatch(signupSuccess(response.body));
-    })
-    .catch(console.error);
 };
 
 function loginSuccess(jwt, userData) {

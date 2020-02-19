@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchActions } from "./store/room/actions";
 import LobbyContainer from "./components/Lobby/LobbyContainer";
 import RoomContainer from "./components/Room/RoomContainer";
 import Tetris from "./components/tetris/Tetris";
+import Header from "./components/Header/Header";
+import SignupFormContainer from "./components/Signin/SignupFormContainer";
+import LoginFormContainer from "./components/Login/LoginFormContainer";
 
 class App extends Component {
   stream = new EventSource("http://localhost:4000/stream");
@@ -20,9 +23,14 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Route exact path="/" component={LobbyContainer} />
-        <Route path="/room/:id" component={RoomContainer} />
-        <Route path="/games/:id" component={Tetris} />
+        <Header />
+        <Switch>
+          <Route exact path="/" component={LobbyContainer} />
+          <Route exact path="/login" component={LoginFormContainer} />
+          <Route exact path="/signup" component={SignupFormContainer} />
+          <Route path="/room/:id" component={RoomContainer} />
+          <Route path="/games/:id" component={Tetris} />
+        </Switch>
       </div>
     );
   }

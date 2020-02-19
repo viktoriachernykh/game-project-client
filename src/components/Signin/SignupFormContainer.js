@@ -15,6 +15,11 @@ class SignupFormContainer extends React.Component {
       this.state.email,
       this.state.password
     );
+    this.setState({
+      username: "",
+      email: "",
+      password: ""
+    });
   };
   onChange = event => {
     this.setState({
@@ -23,6 +28,12 @@ class SignupFormContainer extends React.Component {
   };
 
   render() {
+    if (Object.keys(this.props.user).length) {
+      setTimeout(() => {
+        this.props.history.push("/login");
+      }, 500);
+      return <p>Sign-up successful!</p>;
+    }
     return (
       <SignupForm
         onSubmit={this.onSubmit}
@@ -34,4 +45,10 @@ class SignupFormContainer extends React.Component {
   }
 }
 
-export default connect(null, { signup })(SignupFormContainer);
+function mapStateToProps(state) {
+  return {
+    user: { ...state.session.user }
+  };
+}
+
+export default connect(mapStateToProps, { signup })(SignupFormContainer);
