@@ -8,8 +8,17 @@ import { createBoard } from "../tetris/game-helper-files/createBoard";
 import Tetris from "../tetris/Tetris";
 
 class RoomContainer extends React.Component {
-  state = {
-    gameData: {}
+  componentDidMount = async () => {
+    //get room data with room id (this.props.match.params.id)
+    //so if we leave the room and come back, the latest boardState will be fetched
+
+    try {
+      const roomId = this.props.match.params.id;
+      const roomData = await axios.get(`http://localhost:4000/room/${roomId}`);
+      console.log("Room data test:", roomData);
+    } catch (error) {
+      throw error;
+    }
   };
 
   onSubmit = async maxPlayers => {
@@ -23,10 +32,11 @@ class RoomContainer extends React.Component {
         boardState: emptyBoard
       });
 
-      console.log("New game test", newGame);
+      // console.log("New game test", newGame);
 
-      // response will the game, set to room container state
-      this.setState({ gameData: newGame.data.payload });
+      // response will the game, set to room container state CHANGE THIS TO SET TO STORE (state.rooms.room.game)
+      this.props.dispatch(newGame.data);
+      // this.setState({ gameData: newGame.data.payload });
     } catch (error) {
       throw error;
     }
@@ -55,8 +65,11 @@ class RoomContainer extends React.Component {
         </aside>
         <section>
           <NewGameForm onSubmit={this.onSubmit} />
-          {Object.keys(this.state.gameData).length > 0 ? (
-            <Tetris gameId={this.state.gameData.id} />
+          {this.props.game ? (
+            <Tetris
+              gameId={this.props.game.id}
+              boardState={this.props.game.boardState}
+            />
           ) : null}
         </section>
       </div>
@@ -69,7 +82,8 @@ function mapStateToProps(state) {
     user: state.session.user,
     token: state.session.jwt,
     rooms: state.rooms.rooms,
-    room: state.rooms.room
+    room: state.rooms.room,
+    game: state.rooms.room.game
   };
 }
 

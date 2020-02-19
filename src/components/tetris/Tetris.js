@@ -83,6 +83,7 @@ export default function Tetris(props) {
 
   function move(event) {
     const { keyCode } = event;
+    event.preventDefault();
     if (!gameOver) {
       if (keyCode === 37) {
         movePlayer(-1);

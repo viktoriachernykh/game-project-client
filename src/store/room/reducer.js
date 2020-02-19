@@ -1,4 +1,5 @@
 import { ALL_ROOMS, ONE_ROOM, ADD_ROOM_TO_STORE, NEW_MESSAGE } from "./actions";
+const NEW_GAME = "NEW_GAME";
 
 const initialState = {
   rooms: [],
@@ -8,6 +9,25 @@ const initialState = {
 export default function(state = initialState, action = {}) {
   console.log(" Reducer was reached!");
   switch (action.type) {
+    case NEW_GAME: {
+      return {
+        ...state,
+        rooms: state.rooms.map(room => {
+          if (action.payload.roomId === room.id) {
+            return {
+              ...room,
+              game: action.payload
+            };
+          } else {
+            return room;
+          }
+        }),
+        room:
+          action.payload.roomId === state.room.id
+            ? { ...state.room, game: action.payload }
+            : { ...state.room }
+      };
+    }
     case ALL_ROOMS: {
       // console.log("stream goes to reducer?", action.payload);
       return {

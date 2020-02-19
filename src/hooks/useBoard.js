@@ -57,8 +57,6 @@ export const useBoard = (player, resetPlayer, gameId) => {
     };
 
     const sendBoardToDB = async board => {
-      console.log("board test", board);
-
       try {
         const updatedGame = await axios.patch("http://localhost:4000/games", {
           boardState: board,
@@ -71,6 +69,6 @@ export const useBoard = (player, resetPlayer, gameId) => {
     };
 
     setBoard(previousBoardState => updateBoard(previousBoardState));
-  }, [player]);
+  }, [player, resetPlayer]);
   return [board, setBoard, rowsCleared];
 };
