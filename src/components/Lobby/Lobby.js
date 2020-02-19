@@ -27,20 +27,15 @@ class Lobby extends Component {
     return (
       <div>
         <h1>Lobby </h1>
-
-        {!this.props.token && (
+        {this.props.token ? (
           <div>
-            <LoginFormContainer />
-            <SignupFormContainer />
-          </div>
-        )}
-        {this.props.token && (
-          <div>
-            <h1>Welcome, {this.props.user.username}!</h1>
+            <h2>Welcome, {this.props.user.username}!</h2>
             WATCH GAME JOIN GAME CREATE NEW GAME
             <NewRoomForm resource="room" />
             {roomButtons}
           </div>
+        ) : (
+          <div>You have to login to view the lobby.</div>
         )}
       </div>
     );
