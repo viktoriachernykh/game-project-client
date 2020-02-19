@@ -14,14 +14,17 @@ class Lobby extends Component {
 
   render() {
     const roomButtons = this.props.rooms.map(room => (
-      <Link key={room.id} to={`/room/${room.id}`}>
-        <button
-          onClick={() => {
-            return this.pick(room.id);
-          }}>
-          {room.name}
-        </button>
-      </Link>
+      <div key={room.id}>
+        <Link to={`/room/${room.id}`}>
+          <button
+            style={{ display: "block" }}
+            onClick={() => {
+              return this.pick(room.id);
+            }}>
+            {room.name}
+          </button>
+        </Link>
+      </div>
     ));
 
     return (
@@ -30,8 +33,9 @@ class Lobby extends Component {
         {this.props.token ? (
           <div>
             <h2>Welcome, {this.props.user.username}!</h2>
-            WATCH GAME JOIN GAME CREATE NEW GAME
+            Create a new room:
             <NewRoomForm resource="room" />
+            <h3>Click a room to check it out!</h3>
             {roomButtons}
           </div>
         ) : (

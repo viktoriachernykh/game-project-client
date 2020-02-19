@@ -47,16 +47,8 @@ class Form extends React.Component {
           placeholder="Enter the name of the room"
           onChange={this.onChange}
         />
-        {/* <input
-          type="number"
-          value={this.state.maxPlayers}
-          name="maxPlayers"
-          placeholder="Max. players"
-          onChange={this.onChange}
-        /> */}
-
+        <br />
         <button>submit</button>
-
         <button type="button" onClick={this.clear}>
           Clear
         </button>
