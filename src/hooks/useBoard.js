@@ -52,7 +52,7 @@ export const useBoard = (player, resetPlayer, gameId) => {
         return sweepedRowNewBoard;
       }
       //SEND NEW BOARD TO DB
-      sendBoardToDB(newBoard, gameId);
+      // sendBoardToDB(newBoard, gameId);
       return newBoard;
     };
 
@@ -60,12 +60,11 @@ export const useBoard = (player, resetPlayer, gameId) => {
       console.log("board test", board);
 
       try {
-        console.log("before await update");
         const updatedGame = await axios.patch("http://localhost:4000/games", {
           boardState: board,
           id: gameId
         });
-        console.log("after await update");
+        console.log("updatedGame test", updatedGame);
       } catch (error) {
         throw error;
       }

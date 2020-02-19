@@ -19,7 +19,7 @@ class Lobby extends Component {
           onClick={() => {
             return this.pick(room.id);
           }}>
-          {room.name}{" "}
+          {room.name}
         </button>
       </Link>
     ));
