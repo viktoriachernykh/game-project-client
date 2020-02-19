@@ -1,24 +1,23 @@
 import { createStore, applyMiddleware, compose } from "redux";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import reducer from "./rootReducer";
 import ReduxThunk from "redux-thunk";
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const persistConfig = {
+  key: "root",
+  storage
+};
 
-const enhancer = composeEnhancers(applyMiddleware(ReduxThunk));
+const persistedReducer = persistReducer(persistConfig, reducer);
 
-const store = createStore(reducer, enhancer);
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION__
+  ? window.__REDUX_DEVTOOLS_EXTENSION__()
+  : x => x;
 
-export default store;
+const enhancer = compose(applyMiddleware(ReduxThunk), devTools);
 
-// import { createStore, applyMiddleware, compose } from "redux";
-// import reducer from "./rootReducer";
-// import ReduxThunk from "redux-thunk";
+const store = createStore(persistedReducer, enhancer);
+const persistor = persistStore(store);
 
-// const devTools = window.__REDUX_DEVTOOLS_EXTENSION__
-//   ? window.__REDUX_DEVTOOLS_EXTENSION__()
-//   : x => x;
-
-// const enhancer = compose(applyMiddleware(ReduxThunk), devTools);
-// const store = createStore(reducer, enhancer);
-
-// export default store;
+export { store, persistor };
