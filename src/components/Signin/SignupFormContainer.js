@@ -35,12 +35,15 @@ class SignupFormContainer extends React.Component {
       return <p>Sign-up successful!</p>;
     }
     return (
-      <SignupForm
-        onSubmit={this.onSubmit}
-        onChange={this.onChange}
-        values={this.state}
-        text="Signup"
-      />
+      <div>
+        <h1>Sign up</h1>
+        <SignupForm
+          onSubmit={this.onSubmit}
+          onChange={this.onChange}
+          values={this.state}
+          text="Signup"
+        />
+      </div>
     );
   }
 }

@@ -8,6 +8,7 @@ import Tetris from "./components/tetris/Tetris";
 import Header from "./components/Header/Header";
 import SignupFormContainer from "./components/Signin/SignupFormContainer";
 import LoginFormContainer from "./components/Login/LoginFormContainer";
+import Logout from "./components/Logout/Logout";
 
 class App extends Component {
   stream = new EventSource("http://localhost:4000/stream");
@@ -28,6 +29,7 @@ class App extends Component {
           <Route exact path="/" component={LobbyContainer} />
           <Route exact path="/login" component={LoginFormContainer} />
           <Route exact path="/signup" component={SignupFormContainer} />
+          <Route exact path="/logout" component={Logout} />
           <Route path="/room/:id" component={RoomContainer} />
           <Route path="/games/:id" component={Tetris} />
         </Switch>

@@ -29,12 +29,15 @@ class LoginFormContainer extends Component {
       return <p>Login successful!</p>;
     }
     return (
-      <LoginForm
-        onSubmit={this.onSubmit}
-        onChange={this.onChange}
-        values={this.state}
-        text="Login"
-      />
+      <div>
+        <h1>Login</h1>
+        <LoginForm
+          onSubmit={this.onSubmit}
+          onChange={this.onChange}
+          values={this.state}
+          text="Login"
+        />
+      </div>
     );
   }
 }

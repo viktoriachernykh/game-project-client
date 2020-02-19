@@ -3,6 +3,13 @@ const baseUrl = "http://localhost:4000";
 
 export const NEW_USER = "NEW_USER";
 export const SET_SESSION = "user/SET_JWT_AND_USER_DATA";
+export const LOGOUT_USER = "user/LOGOUT_USER";
+
+export function logout() {
+  return {
+    type: LOGOUT_USER
+  };
+}
 
 function signupSuccess(payload) {
   return {
