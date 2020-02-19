@@ -18,16 +18,21 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
-  const { gameId, boardState, gameStarted, tellDBToStartGame } = props;
+  const { gameId, boardState, token, gameStarted, tellDBToStartGame } = props;
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
+
+  const gameData = {
+    id: gameId,
+    boardState
+  };
 
   const [player, updatePlayerPosition, resetPlayer, playerRotate] = usePlayer();
   const [board, setBoard, rowsCleared] = useBoard(
     player,
     resetPlayer,
-    gameId,
-    boardState
+    gameData,
+    token
   );
 
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(

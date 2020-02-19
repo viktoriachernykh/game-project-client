@@ -15,7 +15,7 @@ class NewGameForm extends Component {
 
   onSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit(this.state.maxPlayers);
+    this.props.onSubmit(this.state.maxPlayers, this.props.token);
   };
 
   render() {
@@ -36,7 +36,9 @@ class NewGameForm extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  token: state.session.jwt
+});
 
 const mapDispatchToProps = {};
 

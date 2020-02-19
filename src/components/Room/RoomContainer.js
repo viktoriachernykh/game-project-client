@@ -21,16 +21,24 @@ class RoomContainer extends React.Component {
     }
   };
 
-  onSubmit = async maxPlayers => {
+  onSubmit = async (maxPlayers, token) => {
     const url = `http://localhost:4000/games`;
 
     try {
       const emptyBoard = createBoard();
-      const newGame = await axios.post(url, {
-        maxPlayers,
-        roomId: this.props.room.id,
-        boardState: emptyBoard
-      });
+      const newGame = await axios.post(
+        url,
+        {
+          maxPlayers,
+          roomId: this.props.room.id,
+          boardState: emptyBoard
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
       // response will the game, set to room container state CHANGE THIS TO SET TO STORE (state.rooms.room.game)
       this.props.dispatch(newGame.data);
     } catch (error) {
@@ -40,10 +48,18 @@ class RoomContainer extends React.Component {
 
   tellDatabaseToStartGame = async () => {
     try {
-      const gameStart = await axios.patch("http://localhost:4000/games", {
-        gameStarted: true,
-        id: this.props.room.game.id
-      });
+      const gameStart = await axios.patch(
+        "http://localhost:4000/games",
+        {
+          gameStarted: true,
+          id: this.props.room.game.id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.token}`
+          }
+        }
+      );
     } catch (error) {
       throw error;
     }
@@ -69,6 +85,7 @@ class RoomContainer extends React.Component {
         <section>
           {room.game ? (
             <Tetris
+              token={this.props.token}
               gameId={room.game.id}
               boardState={room.game.boardState}
               tellDBToStartGame={this.tellDatabaseToStartGame}

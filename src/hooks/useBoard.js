@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { createBoard } from "../components/tetris/game-helper-files/createBoard";
 import axios from "axios";
 
-export const useBoard = (player, resetPlayer, gameId, boardState) => {
+export const useBoard = (player, resetPlayer, gameData, token) => {
+  const { id, boardState } = gameData;
   const [board, setBoard] = useState(createBoard());
   const [rowsCleared, setRowsCleared] = useState(0);
 
@@ -48,7 +49,7 @@ export const useBoard = (player, resetPlayer, gameId, boardState) => {
         const sweepedRowNewBoard = sweepRows(newBoard);
 
         //SEND SWEEPEDROWNEWBOARD TO DB
-        sendBoardToDB(sweepedRowNewBoard, gameId);
+        sendBoardToDB(sweepedRowNewBoard, id);
         return sweepedRowNewBoard;
       }
 
@@ -57,10 +58,18 @@ export const useBoard = (player, resetPlayer, gameId, boardState) => {
 
     const sendBoardToDB = async board => {
       try {
-        const updatedGame = await axios.patch("http://localhost:4000/games", {
-          boardState: board,
-          id: gameId
-        });
+        const updatedGame = await axios.patch(
+          "http://localhost:4000/games",
+          {
+            boardState: board,
+            id
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          }
+        );
       } catch (error) {
         throw error;
       }
