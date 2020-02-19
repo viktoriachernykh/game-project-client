@@ -9,7 +9,6 @@ const initialState = {
 };
 
 export default function(state = initialState, action = {}) {
-  console.log(" Reducer was reached!");
   switch (action.type) {
     case BOARD_UPDATED: {
       return {
@@ -56,7 +55,6 @@ export default function(state = initialState, action = {}) {
       };
     }
     case ALL_ROOMS: {
-      // console.log("stream goes to reducer?", action.payload);
       return {
         ...state,
         rooms: action.payload

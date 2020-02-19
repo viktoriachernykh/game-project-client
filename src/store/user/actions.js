@@ -36,12 +36,10 @@ function loginSuccess(jwt, userData) {
   };
 }
 export const login = (username, password) => dispatch => {
-  console.log("3", password);
   const data = {
     username: username,
     password: password
   };
-  console.log(" data test", data);
 
   request
     .post(`${baseUrl}/login`)

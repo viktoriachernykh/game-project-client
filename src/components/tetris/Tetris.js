@@ -18,7 +18,7 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
-  const { gameId, boardState } = props;
+  const { gameId, boardState, gameStarted, tellDBToStartGame } = props;
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
@@ -29,6 +29,7 @@ export default function Tetris(props) {
     gameId,
     boardState
   );
+
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
     rowsCleared
   );
@@ -101,6 +102,7 @@ export default function Tetris(props) {
       }
     }
   }
+
   // function move(event, playerHasControl) {
   //   if (playerHasControl) {
   //     const { keyCode } = event;
@@ -126,7 +128,11 @@ export default function Tetris(props) {
     <StyledTetrisWrapper
       role="button"
       tabIndex="0"
-      onKeyDown={event => move(event)}
+      onKeyDown={event =>
+        move(event, {
+          /* playerHasControl*/
+        })
+      }
       onKeyUp={keyUp}>
       <StyledTetris>
         <Board board={board} />
@@ -143,7 +149,7 @@ export default function Tetris(props) {
           <StartButton
             callback={() => {
               startGame();
-              props.start();
+              tellDBToStartGame();
             }}
           />
         </aside>

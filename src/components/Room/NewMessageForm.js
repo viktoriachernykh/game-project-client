@@ -20,7 +20,11 @@ class Form extends React.Component {
       if (this.props.resource === "message") {
         data.roomId = this.props.roomId;
       }
-      await axios.post(url, data);
+      await axios.post(url, data, {
+        headers: {
+          Authorization: `Bearer ${this.props.token}`
+        }
+      });
 
       this.clear();
     } catch (error) {
@@ -59,5 +63,10 @@ class Form extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  return {
+    token: state.session.jwt
+  };
+}
 
-export default connect()(Form);
+export default connect(mapStateToProps)(Form);

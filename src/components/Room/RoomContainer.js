@@ -71,8 +71,8 @@ class RoomContainer extends React.Component {
             <Tetris
               gameId={room.game.id}
               boardState={room.game.boardState}
-              start={this.tellDatabaseToStartGame}
-              gameStarted={room.game.gameStarted}
+              tellDBToStartGame={this.tellDatabaseToStartGame}
+              // gameStarted={room.game.gameStarted}
             />
           ) : (
             <NewGameForm onSubmit={this.onSubmit} />

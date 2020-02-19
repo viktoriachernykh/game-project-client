@@ -8,7 +8,6 @@ const initialState = {
 export default function(state = initialState, action = {}) {
   switch (action.type) {
     case SET_SESSION: {
-      // console.log("2", action.payload); // getting the jwt
       return {
         ...state,
         jwt: action.payload.jwt,

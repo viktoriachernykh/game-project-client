@@ -5,7 +5,6 @@ export const ADD_ROOM_TO_STORE = " ADD_ROOM_TO_STORE_AS_CUURENT_ROOM";
 
 export function fetchActions(action) {
   return (dispatch, getState) => {
-    console.log("stream goes to actions?", action);
     dispatch(action);
   };
 }

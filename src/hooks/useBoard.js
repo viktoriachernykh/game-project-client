@@ -51,8 +51,7 @@ export const useBoard = (player, resetPlayer, gameId, boardState) => {
         sendBoardToDB(sweepedRowNewBoard, gameId);
         return sweepedRowNewBoard;
       }
-      //SEND NEW BOARD TO DB
-      // sendBoardToDB(newBoard, gameId);
+
       return newBoard;
     };
 
@@ -62,7 +61,6 @@ export const useBoard = (player, resetPlayer, gameId, boardState) => {
           boardState: board,
           id: gameId
         });
-        console.log("updatedGame test", updatedGame);
       } catch (error) {
         throw error;
       }
