@@ -18,12 +18,17 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
-  const { gameId } = props;
+  const { gameId, boardState } = props;
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
   const [player, updatePlayerPosition, resetPlayer, playerRotate] = usePlayer();
-  const [board, setBoard, rowsCleared] = useBoard(player, resetPlayer, gameId);
+  const [board, setBoard, rowsCleared] = useBoard(
+    player,
+    resetPlayer,
+    gameId,
+    boardState
+  );
   const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
     rowsCleared
   );
@@ -135,7 +140,12 @@ export default function Tetris(props) {
               <Display text={`Level: ${level}`} />
             </div>
           )}
-          <StartButton callback={startGame} />
+          <StartButton
+            callback={() => {
+              startGame();
+              props.start();
+            }}
+          />
         </aside>
       </StyledTetris>
     </StyledTetrisWrapper>

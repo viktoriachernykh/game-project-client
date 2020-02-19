@@ -31,12 +31,19 @@ class RoomContainer extends React.Component {
         roomId: this.props.room.id,
         boardState: emptyBoard
       });
-
-      // console.log("New game test", newGame);
-
       // response will the game, set to room container state CHANGE THIS TO SET TO STORE (state.rooms.room.game)
       this.props.dispatch(newGame.data);
-      // this.setState({ gameData: newGame.data.payload });
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  tellDatabaseToStartGame = async () => {
+    try {
+      const gameStart = await axios.patch("http://localhost:4000/games", {
+        gameStarted: true,
+        id: this.props.room.game.id
+      });
     } catch (error) {
       throw error;
     }
@@ -56,21 +63,20 @@ class RoomContainer extends React.Component {
       <div>
         <Link to="/">Back to lobby</Link>
         <aside className="chatWindow">
-          <NewMessageForm
-            resource="message"
-            field="text"
-            roomId={this.props.room.id}
-          />
+          <NewMessageForm resource="message" field="text" roomId={room.id} />
           {paragraphs}
         </aside>
         <section>
-          <NewGameForm onSubmit={this.onSubmit} />
-          {this.props.game ? (
+          {room.game ? (
             <Tetris
-              gameId={this.props.game.id}
-              boardState={this.props.game.boardState}
+              gameId={room.game.id}
+              boardState={room.game.boardState}
+              start={this.tellDatabaseToStartGame}
+              gameStarted={room.game.gameStarted}
             />
-          ) : null}
+          ) : (
+            <NewGameForm onSubmit={this.onSubmit} />
+          )}
         </section>
       </div>
     );
@@ -82,8 +88,7 @@ function mapStateToProps(state) {
     user: state.session.user,
     token: state.session.jwt,
     rooms: state.rooms.rooms,
-    room: state.rooms.room,
-    game: state.rooms.room.game
+    room: state.rooms.room
   };
 }
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { createBoard } from "../components/tetris/game-helper-files/createBoard";
 import axios from "axios";
 
-export const useBoard = (player, resetPlayer, gameId) => {
+export const useBoard = (player, resetPlayer, gameId, boardState) => {
   const [board, setBoard] = useState(createBoard());
   const [rowsCleared, setRowsCleared] = useState(0);
 
@@ -46,8 +46,8 @@ export const useBoard = (player, resetPlayer, gameId) => {
       if (player.collided) {
         resetPlayer();
         const sweepedRowNewBoard = sweepRows(newBoard);
-        //SEND SWEEPEDROWNEWBOARD TO DB
 
+        //SEND SWEEPEDROWNEWBOARD TO DB
         sendBoardToDB(sweepedRowNewBoard, gameId);
         return sweepedRowNewBoard;
       }
@@ -68,7 +68,8 @@ export const useBoard = (player, resetPlayer, gameId) => {
       }
     };
 
-    setBoard(previousBoardState => updateBoard(previousBoardState));
+    // setBoard(previousBoardState => updateBoard(previousBoardState));
+    setBoard(updateBoard(boardState));
   }, [player, resetPlayer]);
   return [board, setBoard, rowsCleared];
 };
