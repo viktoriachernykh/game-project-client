@@ -63,7 +63,7 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
     const sendBoardToDB = async board => {
       try {
         const updatedGame = await axios.patch(
-          "http://localhost:4000/games",
+          `http://localhost:4000/games`,
           {
             boardState: board,
             id
