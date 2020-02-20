@@ -7,7 +7,12 @@ import NewMessageForm from "./NewMessageForm";
 import { createBoard } from "../tetris/game-helper-files/createBoard";
 import Tetris from "../tetris/Tetris";
 import WithoutControlTetris from "../tetris/WithoutControlTetris";
-import { createNewGame, gameStart } from "../../store/game/actions";
+import {
+  createNewGame,
+  joinCurrentGame,
+  gameStart
+} from "../../store/game/actions";
+import GameControlButton from "../tetris/startButton/StartButton";
 
 class RoomContainer extends React.Component {
   componentDidMount = async () => {
@@ -58,11 +63,43 @@ class RoomContainer extends React.Component {
     }
   };
 
+  joinGame = async () => {
+    this.props.user.gameId = this.props.room.game.id;
+    // console.log(this.props);
+    try {
+      // const emptyBoard = createBoard();
+      this.props.joinCurrentGame(
+        //   this.props.room.id,
+        //   emptyBoard,
+        //   maxPlayers,
+        this.props.token,
+        this.props.user.gameId,
+        this.props.user.id
+      );
+      // const joinedUserId = await axios.patch(
+      //   "http://localhost:4000/games",
+      //   {
+      //     status: "started",
+      //     id: this.props.room.game.id
+      //   },
+      //   {
+      //     headers: {
+      //       Authorization: `Bearer ${this.props.token}`
+      //     }
+      //   }
+      // );
+    } catch (error) {
+      throw error;
+    }
+  };
+
   render() {
     // console.log("this.props from RoomContainer render ", this.props);
 
     const room = this.props.room;
     const game = this.props.room.game;
+    // console.log("game", game);
+    // console.log("user", this.props.user);
 
     const paragraphs =
       Object.keys(room).length !== 0
@@ -72,6 +109,15 @@ class RoomContainer extends React.Component {
     return (
       <div>
         <Link to="/">Back to lobby</Link>
+        {room.game && this.props.user.gameId !== game.id && (
+          <GameControlButton
+            text="JOIN"
+            callback={() => {
+              this.joinGame();
+              console.log("game join button pressed");
+            }}
+          />
+        )}
         <aside className="chatWindow">
           <NewMessageForm resource="message" field="text" roomId={room.id} />
           {paragraphs}
@@ -112,6 +158,7 @@ class RoomContainer extends React.Component {
 
 const mapDispatchToProps = {
   createNewGame,
+  joinCurrentGame,
   gameStart
 };
 

@@ -149,7 +149,8 @@ export default function Tetris(props) {
       role="button"
       tabIndex="0"
       onKeyDown={event => move(event)}
-      onKeyUp={keyUp}>
+      onKeyUp={keyUp}
+    >
       <StyledTetris>
         {!gameStarted &&
           gameStatus === "started" &&

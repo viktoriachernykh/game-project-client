@@ -24,6 +24,30 @@ export function gameStart(gameId, token) {
   };
 }
 
+export function joinCurrentGame(token, gameId, userId) {
+  // console.log(token);
+  // console.log(gameId);
+  // console.log(userId);
+  return async (dispatch, getState) => {
+    try {
+      const updatedUser = await axios.patch(
+        `http://localhost:4000/users/${userId}`,
+        {
+          gameId: gameId
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      dispatch(updateUserData(updatedUser.data));
+    } catch (error) {
+      throw error;
+    }
+  };
+}
+
 export function createNewGame(roomId, board, maxPlayers, token, userId) {
   return async (dispatch, getState) => {
     try {
