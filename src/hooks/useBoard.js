@@ -51,6 +51,8 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
 
           //SEND SWEEPEDROWNEWBOARD TO DB
           sendBoardToDB(sweepedRowNewBoard, id);
+
+          //update player that sends the update to set "hasControl" to false and find the other player in the room and set his/her "has control" to true.
           return sweepedRowNewBoard;
         }
 
