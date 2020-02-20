@@ -52,7 +52,7 @@ class RoomContainer extends React.Component {
       const gameStart = await axios.patch(
         "http://localhost:4000/games",
         {
-          gameStarted: true,
+          status: "started",
           id: this.props.room.game.id
         },
         {
@@ -90,7 +90,8 @@ class RoomContainer extends React.Component {
               gameId={room.game.id}
               boardState={room.game.boardState}
               tellDBToStartGame={this.tellDatabaseToStartGame}
-              // gameStarted={room.game.gameStarted}
+              gameStarted={room.game.gameStarted}
+              gameStatus={room.game.status}
             />
           ) : (
             <NewGameForm onSubmit={this.onSubmit} />

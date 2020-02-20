@@ -16,7 +16,14 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
-  const { gameId, boardState, token, gameStarted, tellDBToStartGame } = props;
+  const {
+    gameId,
+    boardState,
+    token,
+    gameStarted,
+    gameStatus,
+    tellDBToStartGame
+  } = props;
   console.log("Props of tetris without control test:", props);
 
   const [dropTime, setDropTime] = useState(null);
@@ -48,6 +55,20 @@ export default function Tetris(props) {
   return (
     <StyledTetrisWrapper role="button" tabIndex="0">
       <StyledTetris>
+        {/* {!gameStarted && gameStatus === "started" ? (
+          <div>
+            <h1>Game starts in:</h1>
+            {setTimeout(() => {
+              return <p>3</p>;
+            }, 1000)}
+            {setTimeout(() => {
+              return <p>2</p>;
+            }, 2000)}
+            {setTimeout(() => {
+              return <p>1</p>;
+            }, 3000)}
+          </div>
+        ) : null} */}
         <Board board={boardState} />
         <aside>
           {gameOver ? (
