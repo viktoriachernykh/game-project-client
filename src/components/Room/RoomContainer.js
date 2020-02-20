@@ -7,6 +7,7 @@ import NewMessageForm from "./NewMessageForm";
 import { createBoard } from "../tetris/game-helper-files/createBoard";
 import Tetris from "../tetris/Tetris";
 import WithoutControlTetris from "../tetris/WithoutControlTetris";
+import { createNewGame, gameStart } from "../../store/game/actions";
 
 class RoomContainer extends React.Component {
   componentDidMount = async () => {
@@ -16,7 +17,6 @@ class RoomContainer extends React.Component {
     try {
       const roomId = this.props.match.params.id;
       const roomData = await axios.get(`http://localhost:4000/room/${roomId}`);
-      console.log("Room data test:", roomData);
     } catch (error) {
       throw error;
     }
@@ -27,21 +27,12 @@ class RoomContainer extends React.Component {
 
     try {
       const emptyBoard = createBoard();
-      const newGame = await axios.post(
-        url,
-        {
-          maxPlayers,
-          roomId: this.props.room.id,
-          boardState: emptyBoard
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
+      this.props.createNewGame(
+        this.props.room.id,
+        emptyBoard,
+        maxPlayers,
+        this.props.token
       );
-      // response will the game, set to room container state CHANGE THIS TO SET TO STORE (state.rooms.room.game)
-      this.props.dispatch(newGame.data);
     } catch (error) {
       throw error;
     }
@@ -52,7 +43,7 @@ class RoomContainer extends React.Component {
       const gameStart = await axios.patch(
         "http://localhost:4000/games",
         {
-          gameStarted: true,
+          status: "started",
           id: this.props.room.game.id
         },
         {
@@ -67,9 +58,10 @@ class RoomContainer extends React.Component {
   };
 
   render() {
-    console.log("this.props from RoomContainer render ", this.props);
+    // console.log("this.props from RoomContainer render ", this.props);
 
     const room = this.props.room;
+    const game = this.props.room.game;
 
     const paragraphs =
       Object.keys(room).length !== 0
@@ -87,10 +79,14 @@ class RoomContainer extends React.Component {
           {room.game ? (
             <Tetris
               token={this.props.token}
-              gameId={room.game.id}
-              boardState={room.game.boardState}
+              gameId={game.id}
+              boardState={game.boardState}
               tellDBToStartGame={this.tellDatabaseToStartGame}
-              // gameStarted={room.game.gameStarted}
+              gameStarted={game.gameStarted}
+              gameStatus={game.status}
+              callbackGameStart={() =>
+                this.props.gameStart(game.id, this.props.token)
+              }
             />
           ) : (
             <NewGameForm onSubmit={this.onSubmit} />
@@ -99,14 +95,24 @@ class RoomContainer extends React.Component {
         {room.game ? (
           <WithoutControlTetris
             token={this.props.token}
-            gameId={room.game.id}
+            gameId={game.id}
             boardState={room.game.boardState}
+            gameStarted={game.gameStarted}
+            gameStatus={game.status}
+            callbackGameStart={() =>
+              this.props.gameStart(game.id, this.props.token)
+            }
           />
         ) : null}
       </div>
     );
   }
 }
+
+const mapDispatchToProps = {
+  createNewGame,
+  gameStart
+};
 
 function mapStateToProps(state) {
   return {
@@ -117,4 +123,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(RoomContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(RoomContainer);

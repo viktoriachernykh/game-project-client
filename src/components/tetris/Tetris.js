@@ -18,7 +18,14 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
-  const { gameId, boardState, token, gameStarted, tellDBToStartGame } = props;
+  const {
+    gameId,
+    boardState,
+    token,
+    gameStarted,
+    gameStatus,
+    tellDBToStartGame
+  } = props;
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
 
@@ -141,6 +148,15 @@ export default function Tetris(props) {
       onKeyUp={keyUp}
     >
       <StyledTetris>
+        {!gameStarted &&
+          gameStatus === "started" &&
+          setTimeout(() => {
+            props.callbackGameStart();
+          }, 2000) && (
+            <div>
+              <h1>Game starts!</h1>
+            </div>
+          )}
         <Board board={board} />
         <aside>
           {gameOver ? (
