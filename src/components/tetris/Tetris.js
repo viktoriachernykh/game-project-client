@@ -107,19 +107,12 @@ export default function Tetris(props) {
   }
 
   function keyUp(event) {
-<<<<<<< HEAD
-    const { keyCode } = event;
-    if (!gameOver) {
-      if (keyCode === 40) {
-        setDropTime(900 / (level + 1) + 200);
-=======
     if (!paused) {
       const { keyCode } = event;
       if (!gameOver) {
         if (keyCode === 40) {
           setDropTime(900 / (level + 1) + 200);
         }
->>>>>>> cd09c700bfb4a55caf224b5bdb9e441e3ab55e90
       }
     }
   }
