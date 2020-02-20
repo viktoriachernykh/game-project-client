@@ -6,7 +6,7 @@ import { checkCollision } from "./game-helper-files/collision";
 //components
 import Board from "./board/Board";
 import Display from "./display/Display";
-import StartButton from "./startButton/StartButton";
+import GameControlButton from "./startButton/StartButton";
 
 //hooks
 import { usePlayer } from "../../hooks/usePlayer";
@@ -55,12 +55,30 @@ export default function Tetris(props) {
 
   function startGame() {
     setBoard(boardState);
-    setDropTime(1000);
+    setDropTime(900 / (level + 1) + 200);
     resetPlayer();
     setGameOver(false);
     setScore(0);
     setRows(0);
     setLevel(0);
+  }
+
+  function restartGame() {
+    setBoard(createBoard());
+    setDropTime(900 / (level + 1) + 200);
+    resetPlayer();
+    setGameOver(false);
+    setScore(0);
+    setRows(0);
+    setLevel(0);
+  }
+
+  function pauseGame() {
+    setDropTime(null);
+  }
+
+  function unpauseGame() {
+    setDropTime(900 / (level + 1) + 200);
   }
 
   function drop() {
@@ -86,6 +104,7 @@ export default function Tetris(props) {
   }
 
   function keyUp(event) {
+    event.preventDefault();
     const { keyCode } = event;
     if (!gameOver) {
       if (keyCode === 40) {
@@ -100,37 +119,22 @@ export default function Tetris(props) {
   }
 
   function move(event) {
-    const { keyCode } = event;
-    event.preventDefault();
-    if (!gameOver) {
-      if (keyCode === 37) {
-        movePlayer(-1);
-      } else if (keyCode === 39) {
-        movePlayer(1);
-      } else if (keyCode === 40) {
-        dropPlayer();
-      } else if (keyCode === 38) {
-        playerRotate(board, 1);
+    if (dropTime !== null) {
+      event.preventDefault();
+      const { keyCode } = event;
+      if (!gameOver) {
+        if (keyCode === 37) {
+          movePlayer(-1);
+        } else if (keyCode === 39) {
+          movePlayer(1);
+        } else if (keyCode === 40) {
+          dropPlayer();
+        } else if (keyCode === 38) {
+          playerRotate(board, 1);
+        }
       }
     }
   }
-
-  // function move(event, playerHasControl) {
-  //   if (playerHasControl) {
-  //     const { keyCode } = event;
-  //     if (!gameOver) {
-  //       if (keyCode === 37) {
-  //         movePlayer(-1);
-  //       } else if (keyCode === 39) {
-  //         movePlayer(1);
-  //       } else if (keyCode === 40) {
-  //         dropPlayer();
-  //       } else if (keyCode === 38) {
-  //         playerRotate(board, 1);
-  //       }
-  //     }
-  //   }
-  // }
 
   useInterval(() => {
     drop();
@@ -140,12 +144,9 @@ export default function Tetris(props) {
     <StyledTetrisWrapper
       role="button"
       tabIndex="0"
-      onKeyDown={event =>
-        move(event, {
-          /* playerHasControl*/
-        })
-      }
-      onKeyUp={keyUp}>
+      onKeyDown={event => move(event)}
+      onKeyUp={keyUp}
+    >
       <StyledTetris>
         {!gameStarted &&
           gameStatus === "started" &&
@@ -159,7 +160,22 @@ export default function Tetris(props) {
         <Board board={board} />
         <aside>
           {gameOver ? (
-            <Display gameOver={gameOver} text="Game Over" />
+            <div>
+              <Display gameOver={gameOver} text="Game Over" />
+              <GameControlButton
+                text="Delete Game"
+                callback={() => {
+                  console.log("game delete button pressed");
+                }}
+              />
+              <GameControlButton
+                text="Restart Game"
+                callback={() => {
+                  restartGame();
+                  console.log("game restart button pressed");
+                }}
+              />
+            </div>
           ) : (
             <div>
               <Display text={`Score: ${score}`} />
@@ -167,10 +183,32 @@ export default function Tetris(props) {
               <Display text={`Level: ${level}`} />
             </div>
           )}
-          <StartButton
+          <GameControlButton
+            text="Start Game"
             callback={() => {
               startGame();
               tellDBToStartGame();
+            }}
+          />
+          <GameControlButton
+            text="Restart Game"
+            callback={() => {
+              restartGame();
+              tellDBToStartGame();
+            }}
+          />
+          <GameControlButton
+            text="Pause Game"
+            callback={() => {
+              pauseGame();
+              console.log("game pause button pressed");
+            }}
+          />
+          <GameControlButton
+            text="Continue Game"
+            callback={() => {
+              unpauseGame();
+              console.log("game continue button pressed");
             }}
           />
         </aside>
