@@ -186,34 +186,40 @@ export default function Tetris(props) {
               <Display text={`Level: ${level}`} />
             </div>
           )}
-          <GameControlButton
-            text="Start Game"
-            callback={() => {
-              startGame();
-              tellDBToStartGame();
-            }}
-          />
-          <GameControlButton
-            text="Restart Game"
-            callback={() => {
-              restartGame();
-              tellDBToStartGame();
-            }}
-          />
-          <GameControlButton
-            text="Pause Game"
-            callback={() => {
-              pauseGame();
-              console.log("game pause button pressed");
-            }}
-          />
-          <GameControlButton
-            text="Continue Game"
-            callback={() => {
-              unpauseGame();
-              console.log("game continue button pressed");
-            }}
-          />
+          {gameStatus === null && (
+            <GameControlButton
+              text="Start Game"
+              callback={() => {
+                startGame();
+                tellDBToStartGame();
+              }}
+            />
+          )}
+          {gameStatus === "started" && gameStarted && (
+            <div>
+              <GameControlButton
+                text="Pause Game"
+                callback={() => {
+                  pauseGame();
+                  console.log("game pause button pressed");
+                }}
+              />
+              <GameControlButton
+                text="Continue Game"
+                callback={() => {
+                  unpauseGame();
+                  console.log("game continue button pressed");
+                }}
+              />
+              <GameControlButton
+                text="Start Game"
+                callback={() => {
+                  startGame();
+                  tellDBToStartGame();
+                }}
+              />
+            </div>
+          )}
         </aside>
       </StyledTetris>
     </StyledTetrisWrapper>
