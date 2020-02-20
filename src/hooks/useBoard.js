@@ -80,5 +80,6 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
     // setBoard(previousBoardState => updateBoard(previousBoardState));
     setBoard(previousBoardState => updateBoard(previousBoardState));
   }, [player, resetPlayer]);
+
   return [board, setBoard, rowsCleared];
 };

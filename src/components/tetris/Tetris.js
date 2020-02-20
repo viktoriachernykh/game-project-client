@@ -66,6 +66,14 @@ export default function Tetris(props) {
     setLevel(0);
   }
 
+  function pauseGame() {
+    setDropTime(null);
+  }
+
+  function unpauseGame() {
+    setDropTime(900 / (level + 1) + 200);
+  }
+
   function drop() {
     //Increase level when player has cleared 10 rows.
     if (rows > (level + 1) * 10) {
@@ -89,6 +97,7 @@ export default function Tetris(props) {
   }
 
   function keyUp(event) {
+    event.preventDefault();
     const { keyCode } = event;
     if (!gameOver) {
       if (keyCode === 40) {
@@ -103,17 +112,19 @@ export default function Tetris(props) {
   }
 
   function move(event) {
-    const { keyCode } = event;
-    event.preventDefault();
-    if (!gameOver) {
-      if (keyCode === 37) {
-        movePlayer(-1);
-      } else if (keyCode === 39) {
-        movePlayer(1);
-      } else if (keyCode === 40) {
-        dropPlayer();
-      } else if (keyCode === 38) {
-        playerRotate(board, 1);
+    if (dropTime !== null) {
+      event.preventDefault();
+      const { keyCode } = event;
+      if (!gameOver) {
+        if (keyCode === 37) {
+          movePlayer(-1);
+        } else if (keyCode === 39) {
+          movePlayer(1);
+        } else if (keyCode === 40) {
+          dropPlayer();
+        } else if (keyCode === 38) {
+          playerRotate(board, 1);
+        }
       }
     }
   }
@@ -127,7 +138,8 @@ export default function Tetris(props) {
       role="button"
       tabIndex="0"
       onKeyDown={event => move(event)}
-      onKeyUp={keyUp}>
+      onKeyUp={keyUp}
+    >
       <StyledTetris>
         <Board board={board} />
         <aside>
@@ -160,6 +172,27 @@ export default function Tetris(props) {
             callback={() => {
               startGame();
               tellDBToStartGame();
+            }}
+          />
+          <GameControlButton
+            text="Restart Game"
+            callback={() => {
+              restartGame();
+              tellDBToStartGame();
+            }}
+          />
+          <GameControlButton
+            text="Pause Game"
+            callback={() => {
+              pauseGame();
+              console.log("game pause button pressed");
+            }}
+          />
+          <GameControlButton
+            text="Continue Game"
+            callback={() => {
+              unpauseGame();
+              console.log("game continue button pressed");
             }}
           />
         </aside>
