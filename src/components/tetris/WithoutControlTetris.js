@@ -65,7 +65,6 @@ export default function Tetris(props) {
               <Display text={`Level: ${level}`} />
             </div>
           )}
-          <StartButton />
         </aside>
       </StyledTetris>
     </StyledTetrisWrapper>
