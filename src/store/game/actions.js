@@ -7,10 +7,9 @@ export function gameStart(gameId, token) {
   return async (dispatch, getState) => {
     try {
       const gameHasStarted = await axios.patch(
-        url,
+        `${url}/${gameId}`,
         {
-          gameStarted: true,
-          id: gameId
+          gameStarted: true
         },
         {
           headers: {

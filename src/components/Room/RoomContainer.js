@@ -47,10 +47,9 @@ class RoomContainer extends React.Component {
   tellDatabaseToStartGame = async () => {
     try {
       const gameStart = await axios.patch(
-        "http://localhost:4000/games",
+        `http://localhost:4000/games/${this.props.room.game.id}`,
         {
-          status: "started",
-          id: this.props.room.game.id
+          status: "started"
         },
         {
           headers: {
@@ -65,29 +64,12 @@ class RoomContainer extends React.Component {
 
   joinGame = async () => {
     this.props.user.gameId = this.props.room.game.id;
-    // console.log(this.props);
     try {
-      // const emptyBoard = createBoard();
       this.props.joinCurrentGame(
-        //   this.props.room.id,
-        //   emptyBoard,
-        //   maxPlayers,
         this.props.token,
         this.props.user.gameId,
         this.props.user.id
       );
-      // const joinedUserId = await axios.patch(
-      //   "http://localhost:4000/games",
-      //   {
-      //     status: "started",
-      //     id: this.props.room.game.id
-      //   },
-      //   {
-      //     headers: {
-      //       Authorization: `Bearer ${this.props.token}`
-      //     }
-      //   }
-      // );
     } catch (error) {
       throw error;
     }
@@ -98,8 +80,9 @@ class RoomContainer extends React.Component {
 
     const room = this.props.room;
     const game = this.props.room.game;
-    // console.log("game", game);
-    // console.log("user", this.props.user);
+
+    const playerWithControl = room.game ? game.playerWithControl : null;
+    const userId = this.props.user.id;
 
     const paragraphs =
       Object.keys(room).length !== 0
@@ -123,7 +106,7 @@ class RoomContainer extends React.Component {
           {paragraphs}
         </aside>
         <section>
-          {room.game ? (
+          {room.game && playerWithControl === userId ? (
             <Tetris
               token={this.props.token}
               gameId={game.id}
@@ -139,7 +122,7 @@ class RoomContainer extends React.Component {
             <NewGameForm onSubmit={this.onSubmit} />
           )}
         </section>
-        {room.game ? (
+        {room.game && playerWithControl !== userId ? (
           <WithoutControlTetris
             token={this.props.token}
             gameId={game.id}
