@@ -47,7 +47,7 @@ export default function Tetris(props) {
   }
 
   function startGame() {
-    setBoard(createBoard());
+    setBoard(boardState);
     setDropTime(1000);
     resetPlayer();
     setGameOver(false);

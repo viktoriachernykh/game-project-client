@@ -6,6 +6,7 @@ import NewGameForm from "./NewGameForm";
 import NewMessageForm from "./NewMessageForm";
 import { createBoard } from "../tetris/game-helper-files/createBoard";
 import Tetris from "../tetris/Tetris";
+import WithoutControlTetris from "../tetris/WithoutControlTetris";
 
 class RoomContainer extends React.Component {
   componentDidMount = async () => {
@@ -95,6 +96,13 @@ class RoomContainer extends React.Component {
             <NewGameForm onSubmit={this.onSubmit} />
           )}
         </section>
+        {room.game ? (
+          <WithoutControlTetris
+            token={this.props.token}
+            gameId={room.game.id}
+            boardState={room.game.boardState}
+          />
+        ) : null}
       </div>
     );
   }

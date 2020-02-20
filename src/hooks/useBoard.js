@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const useBoard = (player, resetPlayer, gameData, token) => {
   const { id, boardState } = gameData;
-  const [board, setBoard] = useState(createBoard());
+  const [board, setBoard] = useState(boardState);
   const [rowsCleared, setRowsCleared] = useState(0);
 
   useEffect(() => {
@@ -26,34 +26,36 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
     };
 
     const updateBoard = previousBoard => {
-      const newBoard = previousBoard.map(row =>
-        row.map(cell => {
-          return cell[1] === "clear" ? ["0", "clear"] : cell;
-        })
-      );
+      if (player !== null) {
+        const newBoard = previousBoard.map(row =>
+          row.map(cell => {
+            return cell[1] === "clear" ? ["0", "clear"] : cell;
+          })
+        );
 
-      player.tetromino.forEach((row, y) => {
-        row.forEach((value, x) => {
-          if (value !== 0) {
-            newBoard[y + player.position.y][x + player.position.x] = [
-              value,
-              `${player.collided ? "merged" : "clear"}`
-            ];
-          }
+        player.tetromino.forEach((row, y) => {
+          row.forEach((value, x) => {
+            if (value !== 0) {
+              newBoard[y + player.position.y][x + player.position.x] = [
+                value,
+                `${player.collided ? "merged" : "clear"}`
+              ];
+            }
+          });
         });
-      });
 
-      //Check if collided THIS CAUSES TO PLAY WITH A NEW TETROMINO
-      if (player.collided) {
-        resetPlayer();
-        const sweepedRowNewBoard = sweepRows(newBoard);
+        //Check if collided THIS CAUSES TO PLAY WITH A NEW TETROMINO
+        if (player.collided) {
+          resetPlayer();
+          const sweepedRowNewBoard = sweepRows(newBoard);
 
-        //SEND SWEEPEDROWNEWBOARD TO DB
-        sendBoardToDB(sweepedRowNewBoard, id);
-        return sweepedRowNewBoard;
+          //SEND SWEEPEDROWNEWBOARD TO DB
+          sendBoardToDB(sweepedRowNewBoard, id);
+          return sweepedRowNewBoard;
+        }
+
+        return newBoard;
       }
-
-      return newBoard;
     };
 
     const sendBoardToDB = async board => {
@@ -76,7 +78,7 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
     };
 
     // setBoard(previousBoardState => updateBoard(previousBoardState));
-    setBoard(updateBoard(boardState));
+    setBoard(previousBoardState => updateBoard(previousBoardState));
   }, [player, resetPlayer]);
   return [board, setBoard, rowsCleared];
 };

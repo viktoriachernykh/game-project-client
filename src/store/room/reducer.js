@@ -15,9 +15,11 @@ export default function(state = initialState, action = {}) {
         ...state,
         rooms: state.rooms.map(room => {
           if (room.id === action.payload.roomId) {
+            console.log("What am i putting in the store?", action.payload);
+
             return {
               ...room,
-              game: action.payload.roomId
+              game: action.payload
             };
           } else {
             return room;
