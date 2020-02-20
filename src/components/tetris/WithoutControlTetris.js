@@ -16,15 +16,7 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
-  const {
-    gameId,
-    boardState,
-    token,
-    gameStarted,
-    gameStatus,
-    tellDBToStartGame
-  } = props;
-  console.log("Props of tetris without control test:", props);
+  const { gameId, boardState, token, gameStarted, gameStatus } = props;
 
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
@@ -40,35 +32,28 @@ export default function Tetris(props) {
     rowsCleared
   );
 
-  function startGame() {
-    setBoard(boardState);
-    setDropTime(1000);
-    // resetPlayer();
-    setGameOver(false);
-    setScore(0);
-    setRows(0);
-    setLevel(0);
-  }
-
-  console.log("Board test in without control tetris:", board);
+  // function startGame() {
+  //   setBoard(boardState);
+  //   setDropTime(1000);
+  //   // resetPlayer();
+  //   setGameOver(false);
+  //   setScore(0);
+  //   setRows(0);
+  //   setLevel(0);
+  // }
 
   return (
     <StyledTetrisWrapper role="button" tabIndex="0">
       <StyledTetris>
-        {/* {!gameStarted && gameStatus === "started" ? (
-          <div>
-            <h1>Game starts in:</h1>
-            {setTimeout(() => {
-              return <p>3</p>;
-            }, 1000)}
-            {setTimeout(() => {
-              return <p>2</p>;
-            }, 2000)}
-            {setTimeout(() => {
-              return <p>1</p>;
-            }, 3000)}
-          </div>
-        ) : null} */}
+        {!gameStarted &&
+          gameStatus === "started" &&
+          setTimeout(() => {
+            props.callbackGameStart();
+          }, 2000) && (
+            <div>
+              <h1>Game starts!</h1>
+            </div>
+          )}
         <Board board={boardState} />
         <aside>
           {gameOver ? (
