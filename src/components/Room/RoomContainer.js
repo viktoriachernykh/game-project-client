@@ -22,7 +22,7 @@ class RoomContainer extends React.Component {
     }
   };
 
-  onSubmit = async (maxPlayers, token) => {
+  onSubmit = async maxPlayers => {
     const url = `http://localhost:4000/games`;
 
     try {
@@ -31,7 +31,8 @@ class RoomContainer extends React.Component {
         this.props.room.id,
         emptyBoard,
         maxPlayers,
-        this.props.token
+        this.props.token,
+        this.props.user.id
       );
     } catch (error) {
       throw error;

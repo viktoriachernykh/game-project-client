@@ -104,7 +104,6 @@ export default function Tetris(props) {
   }
 
   function keyUp(event) {
-    event.preventDefault();
     const { keyCode } = event;
     if (!gameOver) {
       if (keyCode === 40) {
@@ -145,8 +144,7 @@ export default function Tetris(props) {
       role="button"
       tabIndex="0"
       onKeyDown={event => move(event)}
-      onKeyUp={keyUp}
-    >
+      onKeyUp={keyUp}>
       <StyledTetris>
         {!gameStarted &&
           gameStatus === "started" &&

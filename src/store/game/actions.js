@@ -23,11 +23,12 @@ export function gameStart(gameId, token) {
   };
 }
 
-export function createNewGame(roomId, board, maxPlayers, token) {
+export function createNewGame(roomId, board, maxPlayers, token, userId) {
   return async (dispatch, getState) => {
     try {
+      //Update player to have newGame id as game ID
       const newGame = await axios.post(
-        url,
+        "http://localhost:4000/games",
         {
           maxPlayers,
           roomId: roomId,
@@ -40,7 +41,19 @@ export function createNewGame(roomId, board, maxPlayers, token) {
         }
       );
       // response will the game, set to room container state CHANGE THIS TO SET TO STORE (state.rooms.room.game)
-      dispatch(newGame.data);
+      console.log("new game data", newGame.data.game);
+
+      const updatedUser = await axios.patch(
+        `http://localhost:4000/users/${userId}`,
+        {
+          gameId: newGame.data.game.id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
     } catch (error) {
       throw error;
     }

@@ -16,7 +16,6 @@ class App extends Component {
     this.stream.onmessage = event => {
       // console.log("action", event);
       const action = JSON.parse(event.data);
-      console.log("event.data from App", action);
       this.props.fetchActions(action);
     };
   }
