@@ -4,6 +4,7 @@ const baseUrl = "http://localhost:4000";
 export const NEW_USER = "NEW_USER";
 export const SET_SESSION = "user/SET_JWT_AND_USER_DATA";
 export const LOGOUT_USER = "user/LOGOUT_USER";
+export const UPDATE_USER = "user/UPDATE_USER";
 
 export function logout() {
   return {
@@ -15,6 +16,13 @@ function signupSuccess(payload) {
   return {
     type: NEW_USER,
     payload
+  };
+}
+
+export function updateUserData(userData) {
+  return {
+    type: UPDATE_USER,
+    payload: userData
   };
 }
 

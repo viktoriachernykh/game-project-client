@@ -1,4 +1,5 @@
 import axios from "axios";
+import { updateUserData } from "../user/actions";
 
 const url = `http://localhost:4000/games`;
 
@@ -54,6 +55,7 @@ export function createNewGame(roomId, board, maxPlayers, token, userId) {
           }
         }
       );
+      dispatch(updateUserData(updatedUser.data));
     } catch (error) {
       throw error;
     }

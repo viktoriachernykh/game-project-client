@@ -1,4 +1,4 @@
-import { NEW_USER, SET_SESSION, LOGOUT_USER } from "./actions";
+import { NEW_USER, SET_SESSION, LOGOUT_USER, UPDATE_USER } from "./actions";
 
 const initialState = {
   jwt: "",
@@ -7,6 +7,12 @@ const initialState = {
 
 export default function(state = initialState, action = {}) {
   switch (action.type) {
+    case UPDATE_USER: {
+      return {
+        ...state,
+        user: action.payload
+      };
+    }
     case LOGOUT_USER: {
       return {
         jwt: "",
