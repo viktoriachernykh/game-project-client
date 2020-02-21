@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { baseUrl } from "../baseURL";
 
 export const useBoard = (player, resetPlayer, gameData, token) => {
   const { id, boardState } = gameData;
@@ -66,7 +67,7 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
     const sendBoardToDB = async (board, cleared) => {
       try {
         const updatedGame = await axios.patch(
-          `http://localhost:4000/games`,
+          `${baseUrl}/games`,
           {
             boardState: board,
             clearedRows: cleared,

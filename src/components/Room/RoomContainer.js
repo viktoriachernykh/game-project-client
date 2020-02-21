@@ -13,12 +13,13 @@ import {
   gameStart
 } from "../../store/game/actions";
 import GameControlButton from "../tetris/startButton/StartButton";
+import { baseUrl } from "../../baseURL";
 
 class RoomContainer extends React.Component {
   componentDidMount = async () => {
     try {
       const roomId = this.props.match.params.id;
-      await axios.get(`http://localhost:4000/room/${roomId}`);
+      await axios.get(`${baseUrl}/room/${roomId}`);
     } catch (error) {
       throw error;
     }
@@ -42,7 +43,7 @@ class RoomContainer extends React.Component {
   tellDatabaseToStartGame = async () => {
     try {
       await axios.patch(
-        `http://localhost:4000/games/${this.props.room.game.id}`,
+        `${baseUrl}/games/${this.props.room.game.id}`,
         {
           status: "started"
         },

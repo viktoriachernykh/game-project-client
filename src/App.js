@@ -9,9 +9,10 @@ import Header from "./components/Header/Header";
 import SignupFormContainer from "./components/Signin/SignupFormContainer";
 import LoginFormContainer from "./components/Login/LoginFormContainer";
 import Logout from "./components/Logout/Logout";
+import { baseUrl } from "./baseURL";
 
 class App extends Component {
-  stream = new EventSource("http://localhost:4000/stream");
+  stream = new EventSource(`${baseUrl}/stream`);
   componentDidMount() {
     this.stream.onmessage = event => {
       // console.log("action", event);

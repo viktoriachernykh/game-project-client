@@ -8,7 +8,7 @@ class Header extends Component {
       <div>
         <h1 style={{ display: "inline-block" }}>What up game title</h1>
         <audio controls autoplay loop>
-          <source src="/music/5.mp3" type="audio/mpeg" />
+          <source src="/music/6.mp3" type="audio/mpeg" />
         </audio>
         {this.props.token ? (
           <nav style={{ display: "inline-block" }}>

@@ -1,13 +1,12 @@
 import axios from "axios";
 import { updateUserData } from "../user/actions";
-
-const url = `http://localhost:4000/games`;
+import { baseUrl } from "../../baseURL";
 
 export function gameStart(gameId, token) {
   return async (dispatch, getState) => {
     try {
       const gameHasStarted = await axios.patch(
-        `${url}/${gameId}`,
+        `${baseUrl}/games/${gameId}`,
         {
           gameStarted: true
         },
@@ -30,7 +29,7 @@ export function joinCurrentGame(token, gameId, userId) {
   return async (dispatch, getState) => {
     try {
       const updatedUser = await axios.patch(
-        `http://localhost:4000/users/${userId}`,
+        `${baseUrl}/users/${userId}`,
         {
           gameId: gameId
         },
@@ -52,7 +51,7 @@ export function createNewGame(roomId, board, maxPlayers, token, userId) {
     try {
       //Update player to have newGame id as game ID
       const newGame = await axios.post(
-        "http://localhost:4000/games",
+        `${baseUrl}/games`,
         {
           maxPlayers,
           roomId: roomId,
@@ -68,7 +67,7 @@ export function createNewGame(roomId, board, maxPlayers, token, userId) {
       console.log("new game data", newGame.data.game);
 
       const updatedUser = await axios.patch(
-        `http://localhost:4000/users/${userId}`,
+        `${baseUrl}/users/${userId}`,
         {
           gameId: newGame.data.game.id
         },

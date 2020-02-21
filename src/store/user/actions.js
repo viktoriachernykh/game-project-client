@@ -1,5 +1,5 @@
 import request from "superagent";
-const baseUrl = "http://localhost:4000";
+import { baseUrl } from "../../baseURL";
 
 export const NEW_USER = "NEW_USER";
 export const SET_SESSION = "user/SET_JWT_AND_USER_DATA";
