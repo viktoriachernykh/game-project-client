@@ -15,6 +15,10 @@ export const useGameStatus = rowsCleared => {
           previousScoreState + linePoints[rowsCleared - 1] * (level + 1)
       );
       setRows(previousRowsState => previousRowsState + rowsCleared);
+
+      console.log("Calculating score and rows");
+
+      // sendScoreAndRowsToDB(score, rows, gameId)
     }
   }, [level, linePoints, rowsCleared]);
 

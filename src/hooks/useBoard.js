@@ -50,17 +50,17 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
           const sweepedRowNewBoard = sweepRows(newBoard);
 
           //SEND SWEEPEDROWNEWBOARD TO DB
-          sendBoardToDB(sweepedRowNewBoard, id);
+          sendBoardToDB(sweepedRowNewBoard);
 
           //update player that sends the update to set "hasControl" to false and find the other player in the room and set his/her "has control" to true.
           return sweepedRowNewBoard;
         }
-
         return newBoard;
       }
     };
 
     const sendBoardToDB = async board => {
+      console.log("sending stuff");
       try {
         const updatedGame = await axios.patch(
           `http://localhost:4000/games`,
