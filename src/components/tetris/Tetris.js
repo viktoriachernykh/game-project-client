@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect, useRef } from "react";
 
 import { createBoard } from "./game-helper-files/createBoard";
 import { checkCollision } from "./game-helper-files/collision";
@@ -18,6 +19,7 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
+  const boardRef = useRef();
   const {
     gameId,
     boardState,
@@ -37,6 +39,10 @@ export default function Tetris(props) {
     id: gameId,
     boardState
   };
+
+  useEffect(() => {
+    startGame();
+  }, []);
 
   const [player, updatePlayerPosition, resetPlayer, playerRotate] = usePlayer();
 
@@ -164,7 +170,7 @@ export default function Tetris(props) {
               <h1>Game starts!</h1>
             </div>
           )}
-        <Board board={board} />
+        <Board ref={boardRef} board={board} />
         <aside>
           {gameOver ? (
             <div>

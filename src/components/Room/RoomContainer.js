@@ -1,4 +1,5 @@
 import React from "react";
+import { useRef } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -16,20 +17,15 @@ import GameControlButton from "../tetris/startButton/StartButton";
 
 class RoomContainer extends React.Component {
   componentDidMount = async () => {
-    //get room data with room id (this.props.match.params.id)
-    //so if we leave the room and come back, the latest boardState will be fetched
-
     try {
       const roomId = this.props.match.params.id;
-      const roomData = await axios.get(`http://localhost:4000/room/${roomId}`);
+      await axios.get(`http://localhost:4000/room/${roomId}`);
     } catch (error) {
       throw error;
     }
   };
 
   onSubmit = async maxPlayers => {
-    const url = `http://localhost:4000/games`;
-
     try {
       const emptyBoard = createBoard();
       this.props.createNewGame(
@@ -46,7 +42,7 @@ class RoomContainer extends React.Component {
 
   tellDatabaseToStartGame = async () => {
     try {
-      const gameStart = await axios.patch(
+      await axios.patch(
         `http://localhost:4000/games/${this.props.room.game.id}`,
         {
           status: "started"
@@ -76,8 +72,6 @@ class RoomContainer extends React.Component {
   };
 
   render() {
-    // console.log("this.props from RoomContainer render ", this.props);
-
     const room = this.props.room;
     const game = this.props.room.game;
 
@@ -94,7 +88,7 @@ class RoomContainer extends React.Component {
         <Link to="/">Back to lobby</Link>
         {room.game && this.props.user.gameId !== game.id && (
           <GameControlButton
-            text="JOIN"
+            text="JOIN GAME"
             callback={() => {
               this.joinGame();
               console.log("game join button pressed");
@@ -104,6 +98,7 @@ class RoomContainer extends React.Component {
         <aside className="chatWindow">
           <NewMessageForm resource="message" field="text" roomId={room.id} />
           {paragraphs}
+          {!room.game && <NewGameForm onSubmit={this.onSubmit} />}
         </aside>
         <section>
           {room.game && playerWithControl === userId ? (
@@ -121,9 +116,7 @@ class RoomContainer extends React.Component {
               level={game.level}
               rows={game.rows}
             />
-          ) : (
-            <NewGameForm onSubmit={this.onSubmit} />
-          )}
+          ) : null}
         </section>
         {room.game && playerWithControl !== userId ? (
           <WithoutControlTetris
