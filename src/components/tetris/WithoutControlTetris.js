@@ -16,7 +16,16 @@ import { useGameStatus } from "../../hooks/useGameStatus";
 import { StyledTetrisWrapper, StyledTetris } from "./StyledTetris";
 
 export default function Tetris(props) {
-  const { gameId, boardState, token, gameStarted, gameStatus } = props;
+  const {
+    gameId,
+    boardState,
+    token,
+    gameStarted,
+    gameStatus,
+    rows,
+    level,
+    score
+  } = props;
 
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
@@ -28,19 +37,9 @@ export default function Tetris(props) {
 
   const [board, setBoard, rowsCleared] = useBoard(null, null, gameData, token);
 
-  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
-    rowsCleared
-  );
-
-  // function startGame() {
-  //   setBoard(boardState);
-  //   setDropTime(1000);
-  //   // resetPlayer();
-  //   setGameOver(false);
-  //   setScore(0);
-  //   setRows(0);
-  //   setLevel(0);
-  // }
+  // const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
+  //   rowsCleared
+  // );
 
   return (
     <StyledTetrisWrapper role="button" tabIndex="0">

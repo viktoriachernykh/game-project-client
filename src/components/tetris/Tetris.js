@@ -24,7 +24,10 @@ export default function Tetris(props) {
     token,
     gameStarted,
     gameStatus,
-    tellDBToStartGame
+    tellDBToStartGame,
+    score,
+    level,
+    rows
   } = props;
   const [dropTime, setDropTime] = useState(null);
   const [gameOver, setGameOver] = useState(false);
@@ -44,9 +47,9 @@ export default function Tetris(props) {
     token
   );
 
-  const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
-    rowsCleared
-  );
+  // const [score, setScore, rows, setRows, level, setLevel] = useGameStatus(
+  //   rowsCleared
+  // );
 
   function movePlayer(direction) {
     const intendedMove = { x: direction, y: 0 };
@@ -60,9 +63,9 @@ export default function Tetris(props) {
     setDropTime(900 / (level + 1) + 200);
     resetPlayer();
     setGameOver(false);
-    setScore(0);
-    setRows(0);
-    setLevel(0);
+    // setScore(0);
+    // setRows(0);
+    // setLevel(0);
   }
 
   function restartGame() {
@@ -70,9 +73,9 @@ export default function Tetris(props) {
     setDropTime(900 / (level + 1) + 200);
     resetPlayer();
     setGameOver(false);
-    setScore(0);
-    setRows(0);
-    setLevel(0);
+    // setScore(0);
+    // setRows(0);
+    // setLevel(0);
   }
 
   function pauseGame() {
@@ -88,7 +91,7 @@ export default function Tetris(props) {
   function drop() {
     //Increase level when player has cleared 10 rows.
     if (rows > (level + 1) * 10) {
-      setLevel(previousLevelState => previousLevelState + 1);
+      // setLevel(previousLevelState => previousLevelState + 1);
 
       //Also increase speed
       setDropTime(900 / (level + 1) + 200);

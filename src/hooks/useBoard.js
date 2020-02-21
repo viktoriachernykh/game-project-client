@@ -11,11 +11,13 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
     setRowsCleared(0);
 
     const sweepRows = board => {
-      return board.reduce((newBoard, row) => {
+      let cleared = 0;
+      const newBoard = board.reduce((newBoard, row) => {
         if (row.findIndex(cell => cell[0] === "0") === -1) {
           setRowsCleared(
             previousAmountOfRowsCleared => previousAmountOfRowsCleared + 1
           );
+          cleared += 1;
           newBoard.unshift(new Array(board[0].length).fill(["0", "clear"]));
           return newBoard;
         } else {
@@ -23,6 +25,7 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
           return newBoard;
         }
       }, []);
+      return [cleared, newBoard];
     };
 
     const updateBoard = previousBoard => {
@@ -47,25 +50,31 @@ export const useBoard = (player, resetPlayer, gameData, token) => {
         //Check if collided THIS CAUSES TO PLAY WITH A NEW TETROMINO
         if (player.collided) {
           resetPlayer();
-          const sweepedRowNewBoard = sweepRows(newBoard);
+          const sweepedRowsAndNewBoard = sweepRows(newBoard);
+
+          const clearedBoard = sweepedRowsAndNewBoard[1];
+          const clearedRows = sweepedRowsAndNewBoard[0];
+
+          console.log("Cleared rows", clearedRows);
 
           //SEND SWEEPEDROWNEWBOARD TO DB
-          sendBoardToDB(sweepedRowNewBoard);
+          sendBoardToDB(clearedBoard, clearedRows);
 
           //update player that sends the update to set "hasControl" to false and find the other player in the room and set his/her "has control" to true.
-          return sweepedRowNewBoard;
+          return clearedBoard;
         }
         return newBoard;
       }
     };
 
-    const sendBoardToDB = async board => {
+    const sendBoardToDB = async (board, cleared) => {
       console.log("sending stuff");
       try {
         const updatedGame = await axios.patch(
           `http://localhost:4000/games`,
           {
             boardState: board,
+            clearedRows: cleared,
             id
           },
           {

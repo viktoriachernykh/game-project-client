@@ -117,6 +117,9 @@ class RoomContainer extends React.Component {
               callbackGameStart={() =>
                 this.props.gameStart(game.id, this.props.token)
               }
+              score={game.score}
+              level={game.level}
+              rows={game.rows}
             />
           ) : (
             <NewGameForm onSubmit={this.onSubmit} />
@@ -132,6 +135,9 @@ class RoomContainer extends React.Component {
             callbackGameStart={() =>
               this.props.gameStart(game.id, this.props.token)
             }
+            score={game.score}
+            level={game.level}
+            rows={game.rows}
           />
         ) : null}
       </div>
