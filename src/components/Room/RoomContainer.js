@@ -1,5 +1,4 @@
 import React from "react";
-import { useRef } from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -117,22 +116,22 @@ class RoomContainer extends React.Component {
               rows={game.rows}
             />
           ) : null}
+          {room.game && playerWithControl !== userId ? (
+            <WithoutControlTetris
+              token={this.props.token}
+              gameId={game.id}
+              boardState={room.game.boardState}
+              gameStarted={game.gameStarted}
+              gameStatus={game.status}
+              callbackGameStart={() =>
+                this.props.gameStart(game.id, this.props.token)
+              }
+              score={game.score}
+              level={game.level}
+              rows={game.rows}
+            />
+          ) : null}
         </section>
-        {room.game && playerWithControl !== userId ? (
-          <WithoutControlTetris
-            token={this.props.token}
-            gameId={game.id}
-            boardState={room.game.boardState}
-            gameStarted={game.gameStarted}
-            gameStatus={game.status}
-            callbackGameStart={() =>
-              this.props.gameStart(game.id, this.props.token)
-            }
-            score={game.score}
-            level={game.level}
-            rows={game.rows}
-          />
-        ) : null}
       </div>
     );
   }
