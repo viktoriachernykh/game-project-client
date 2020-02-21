@@ -7,7 +7,9 @@ class Header extends Component {
     return (
       <div>
         <h1 style={{ display: "inline-block" }}>What up game title</h1>
-
+        <audio controls>
+          <source src="/music/1.mp3" type="audio/mpeg" />
+        </audio>
         {this.props.token ? (
           <nav style={{ display: "inline-block" }}>
             <Link to="/">Lobby</Link>
